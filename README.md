@@ -21,6 +21,6 @@ Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e exe
 ./concordo < script_comandos.txt
 ```
 ## Licença e Autora
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/musify/blob/main/LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 
 Feito por [Luiza Lorena Toscano de Medeiros](https://github.com/lorenatoscano).
