@@ -1,6 +1,6 @@
-# Base para a atividade 03 de LP1
+## Sobre
 
-Use esse esqueleto de classes para iniciar a terceira atividade.
+Concordo é um sistema em C++ similar ao Discord, operado através de comandos de uma única linha, desenvolvido como atividade 3 para a disciplina de Linguagem de Programação I do curso Bacharelado em Tecnologia da Informação.
 
 Existe um executor que faz a interpretação dos comandos e executa o método correto do sistema.
 
@@ -20,4 +20,7 @@ Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e exe
 ```console
 ./concordo < script_comandos.txt
 ```
+## Licença e Autora
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/musify/blob/main/LICENSE) para mais detalhes.
 
+Feito por [Luiza Lorena Toscano de Medeiros](https://github.com/lorenatoscano).
