@@ -1,3 +1,5 @@
 .vscode
+.replit
 **/*.o
 concordo
+*.exe

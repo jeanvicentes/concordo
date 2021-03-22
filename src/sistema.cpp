@@ -10,8 +10,30 @@ string Sistema::quit() {
   return "Saindo...";
 }
 
+/** Cria um novo usuário com as informações passadas por parâmetro e retorna uma mensagem.
+ * @param email email inserido.
+ * @param senha senha inserida.
+ * @param nome nome inserido.
+ * @return uma mensagem de sucesso ou informando que o email já existe.
+*/
 string Sistema::create_user (const string email, const string senha, const string nome) {
-  return "create_user NÃO IMPLEMENTADO";
+  vector<Usuario>::iterator it = usuarios.begin();
+  // Verifica se já existe usuário cadastrado com esse email
+  while (it != usuarios.end()) {
+    if (it->getEmail() == email) {
+      return "Usuário já existe!";
+    }
+
+    it++;
+  }
+  // Gera um id automaticamente conforme o tamanho do vetor
+  int id = usuarios.size();
+
+  // Cria o novo usuário e adiciona ao final do vetor
+  Usuario novoUsuario(id, nome, email, senha);
+  usuarios.push_back(novoUsuario);
+
+  return "Usuário criado";
 }
 
 string Sistema::login(const string email, const string senha) {

@@ -1,23 +1,27 @@
 .DEFAULT_GOAL := all
 
-sistema.o: sistema.cpp sistema.h
-	g++ sistema.cpp -c
+all: concordo
 
-executor.o: executor.cpp executor.h sistema.o
-	g++ executor.cpp -c
+# Compila tudo e cria o executável "musify"
+concordo: objects
+	g++ *.o -Iinclude -std=c++11 -Wall -o concordo
 
-usuario.o: usuario.cpp usuario.h
-	g++ usuario.cpp -c
+main.o: src/main.cpp sistema.o executor.o usuario.o
+	g++ src/main.cpp -Iinclude -c
 
-objects: sistema.o executor.o
+sistema.o: src/sistema.cpp usuario.o
+	g++ src/sistema.cpp -Iinclude -c
 
-concordo: objects concordo.cpp
-	g++ -Wall -fsanitize=address sistema.o executor.o concordo.cpp -o concordo
+executor.o: src/executor.cpp sistema.o
+	g++ src/executor.cpp -Iinclude -c
+
+usuario.o: src/usuario.cpp
+	g++ src/usuario.cpp -Iinclude -c
+
+objects: main.o sistema.o executor.o usuario.o
 
 clean:
 	rm *.o concordo
-
-all: concordo
 
 run:
 	./concordo
