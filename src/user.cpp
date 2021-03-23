@@ -19,10 +19,18 @@ User::User(const int _id, const string _name, const string _email, const string 
 User::~User() {
 }
 
+int User::getId() {
+  return id;
+}
+
 string User::getName() {
   return name;
 }
 
 string User::getEmail() {
   return email;
+}
+
+string User::getPassword() {
+  return password;
 }

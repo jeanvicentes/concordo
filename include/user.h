@@ -18,8 +18,10 @@ class User {
     User(const int _id, const string _name, const string _email, const string _password); /**< Construtor parametrizado do usuário */
     ~User();/**< Destrutor do usuário */
 
+    int getId();
     string getName();
     string getEmail();
+    string getPassword();
 };
 
 #endif

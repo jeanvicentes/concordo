@@ -27,7 +27,7 @@ string System::create_user (const string email, const string password, const str
     it++;
   }
   // Gera um id automaticamente conforme o tamanho do vetor
-  int id = users.size();
+  int id = users.size() + 1;
 
   // Cria o novo usuário e adiciona ao final do vetor
   User newUser(id, name, email, password);
@@ -37,8 +37,21 @@ string System::create_user (const string email, const string password, const str
 }
 
 string System::login(const string email, const string password) {
+  vector<User>::iterator it = users.begin();
 
-  return "login NÃO IMPLEMENTADO";
+  // Verifica se existe usuário com esse email e senha
+  while (it != users.end()) {
+    if (it->getEmail() == email) {
+      if (it->getPassword() == password) {
+        // Informa ao sistema o id do usuário logado
+        loggedUserId = it->getId();
+        return "Logado com " + email;
+      }
+    }
+
+    it++;
+  }
+  return "Senha ou usuário inválidos!";
 }
 
 string System::disconnect() {
