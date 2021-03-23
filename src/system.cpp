@@ -38,7 +38,6 @@ string System::create_user (const string email, const string password, const str
 
 string System::login(const string email, const string password) {
   vector<User>::iterator it = users.begin();
-
   // Verifica se existe usuário com esse email e senha
   while (it != users.end()) {
     if (it->getEmail() == email) {
@@ -51,11 +50,26 @@ string System::login(const string email, const string password) {
 
     it++;
   }
+
   return "Senha ou usuário inválidos!";
 }
 
 string System::disconnect() {
-  return "disconnect NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Obtem o usuario logado pelo id
+  vector<User>::iterator it;
+  int targetId = loggedUserId;
+  it = find_if(users.begin(), users.end(), [targetId](User user) {
+    return targetId == user.getId();
+  });
+
+  // Desconecta o usuário atual
+  loggedUserId = 0;
+
+  return "Desconectando usuário " + it->getEmail();
 }
 
 string System::create_server(const string name) {
