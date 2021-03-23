@@ -59,8 +59,8 @@ string System::disconnect() {
   if (loggedUserId == 0) {
     return "Não está conectado";
   }
-  // Obtem o usuario logado pelo id
   vector<User>::iterator it;
+  // Obtem o usuario logado pelo id
   int targetId = loggedUserId;
   it = find_if(users.begin(), users.end(), [targetId](User user) {
     return targetId == user.getId();
@@ -73,7 +73,24 @@ string System::disconnect() {
 }
 
 string System::create_server(const string name) {
-  return "create_server NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  vector<Server>::iterator it;
+  // Verifica se já existe um servidor com esse nome
+  it = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+  if (it != servers.end()) {
+    return "Servidor com esse nome já existe";
+  }
+
+  // Cria um novo servidor e adiciona ao final do vector
+  Server newServer(loggedUserId, name);
+  servers.push_back(newServer);
+
+  return "Servidor criado";
 }
 
 string System::set_server_desc(const string name, const string description) {

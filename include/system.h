@@ -4,17 +4,18 @@
 #include <string>
 #include <iostream>
 #include "user.h"
+#include "server.h"
 
 using namespace std;
 
 /** Classe que representa o sistema e concentra todas as operações do Concordo */
 class System {
   private:
-    //precisa guardar uma coleção de servidores;
+    vector<Server> servers; /** Coleção de servidores */
     vector<User> users; /**< Coleção de usuários */
     int loggedUserId; /** se 0: não logado, caso contrário guarda o id do usuário logado */
-    string connectedServerName;
-    string connectedChannelName;
+    string connectedServerName; /**< Nome do servidor conectado */
+    string connectedChannelName; /**< Nome do canal conectado */
 
   public:
 
