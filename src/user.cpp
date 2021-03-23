@@ -1,0 +1,28 @@
+#include "user.h"
+
+/** Inicializa os atributos com valores nulos */
+User::User() {
+  id = 0;
+  name = "";
+  email = "";
+  password = "";
+}
+
+/** Inicializa os atributos com os valores do parâmetro */
+User::User(const int _id, const string _name, const string _email, const string _password) {
+  id = _id;
+  name = _name;
+  email = _email;
+  password = _password;
+}
+
+User::~User() {
+}
+
+string User::getName() {
+  return name;
+}
+
+string User::getEmail() {
+  return email;
+}

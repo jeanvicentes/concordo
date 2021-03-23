@@ -23,4 +23,4 @@ Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e exe
 ## Licença e Autora
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 
-Feito por [Luiza Lorena Toscano de Medeiros](https://github.com/lorenatoscano).
+Feito por [Luiza Lorena Toscano de Medeiros](https://github.com/lorenatoscano) com base no template base do professor [Isaac Franco Fernandes](https://github.com/isaacfranco).

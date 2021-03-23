@@ -9,151 +9,151 @@ using namespace std;
 
 // Função de apoio que recebe um istringstream e
 // ler todo texto restante até o fim da linha
-string restoDe(istringstream &ss) {
-  string resto;
-  getline(ss, resto, '\0'); // ler o resto da linha
-  if (resto != "" && (resto[0] == ' ' || resto[0] == '\t')) {
-    resto = resto.substr(1); // o primeiro caractere é um espaço, descartar
+string restOf(istringstream &ss) {
+  string rest;
+  getline(ss, rest, '\0'); // ler o resto da linha
+  if (rest != "" && (rest[0] == ' ' || rest[0] == '\t')) {
+    rest = rest.substr(1); // o primeiro caractere é um espaço, descartar
   }
-  return resto;
+  return rest;
 }
 
 // Construtor. Recebe uma referência ao sistema que vai operar
 // Guarda o seu endereço para executar as operações.
-Executor::Executor(Sistema &sistema) {
-  this->sair = false;
-  this->sistema = &sistema;
+Executor::Executor(System &system) {
+  this->quit = false;
+  this->system = &system;
 }
 
 // Inicia o processamento dos comentos.
 // Esse método recebe por exemplo o "cin" e o "cout" no main
 // Dessa forma ele faz o necessário para ler 1 comando por linha e
 // o processar corretamente, colocando no stream de saída o resultado de cada um.
-void Executor::iniciar(istream &inputStream, ostream &outputStream) {
-  string linha, saida;
-  this->sair = false;
-  while (! this->sair)
+void Executor::start(istream &inputStream, ostream &outputStream) {
+  string line, output;
+  this->quit = false;
+  while (! this->quit)
   {
-    if (std::getline(inputStream, linha)) {
-      saida = processarLinha(linha);
-      outputStream << saida << endl;
+    if (std::getline(inputStream, line)) {
+      output = processLine(line);
+      outputStream << output << endl;
     }
   }
 }
 
 // Método responsável por processar cada linha, capturando o nome do comando
 // e seus parâmetros em variáveis e executar o método correspondente no sistema
-string Executor::processarLinha(string linha) {
-  istringstream buf(linha);
-  string nomeComando;
-  buf >> nomeComando;
+string Executor::processLine(string line) {
+  istringstream buf(line);
+  string commandName;
+  buf >> commandName;
 
-  if (nomeComando.empty()) {
+  if (commandName.empty()) {
     return "Comando Inválido <vazio>";
   }
 
-  if (nomeComando == "quit" ) {
-    this->sair = true;
-    return sistema->quit();
+  if (commandName == "quit" ) {
+    this->quit = true;
+    return system->quit();
   }
 
-  else if (nomeComando == "create-user") {
-    string email, senha, nome;
+  else if (commandName == "create-user") {
+    string email, password, name;
     buf >> email;
-    buf >> senha;
-    nome = restoDe(buf);
-    return sistema->create_user(email, senha, nome);
+    buf >> password;
+    name = restOf(buf);
+    return system->create_user(email, password, name);
   }
 
-  else if (nomeComando == "login") {
-    string email, senha;
+  else if (commandName == "login") {
+    string email, password;
     buf >> email;
-    buf >> senha;
-    return sistema->login(email, senha);
+    buf >> password;
+    return system->login(email, password);
   }
 
-  else if (nomeComando == "disconnect") {
-    return sistema->disconnect();
+  else if (commandName == "disconnect") {
+    return system->disconnect();
   }
 
-  else if (nomeComando == "create-server") {
-    string nome;
-    buf >> nome;
-    return sistema->create_server(nome);
+  else if (commandName == "create-server") {
+    string name;
+    buf >> name;
+    return system->create_server(name);
   }
 
-  else if (nomeComando == "set-server-desc") {
-    string nome, descricao;
-    buf >> nome;
-    descricao = restoDe(buf);;
-    return sistema->set_server_desc(nome, descricao);
+  else if (commandName == "set-server-desc") {
+    string name, description;
+    buf >> name;
+    description = restOf(buf);;
+    return system->set_server_desc(name, description);
   }
 
-  else if (nomeComando == "set-server-invite-code") {
-    string nome, codigo;
-    buf >> nome;
-    buf >> codigo;
-    return sistema->set_server_invite_code(nome, codigo);
+  else if (commandName == "set-server-invite-code") {
+    string name, code;
+    buf >> name;
+    buf >> code;
+    return system->set_server_invite_code(name, code);
   }
 
-  else if (nomeComando == "list-servers") {
-    return sistema->list_servers();
+  else if (commandName == "list-servers") {
+    return system->list_servers();
   }
 
-  else if (nomeComando == "remove-server") {
-    string nome;
-    buf >> nome;
-    return sistema->remove_server(nome);
+  else if (commandName == "remove-server") {
+    string name;
+    buf >> name;
+    return system->remove_server(name);
   }
 
-  else if (nomeComando == "enter-server") {
-    string nome, codigo;
-    buf >> nome;
-    buf >> codigo;
-    return sistema->enter_server(nome, codigo);
+  else if (commandName == "enter-server") {
+    string name, code;
+    buf >> name;
+    buf >> code;
+    return system->enter_server(name, code);
   }
 
-  else if (nomeComando == "leave-server") {
-    return sistema->leave_server();
+  else if (commandName == "leave-server") {
+    return system->leave_server();
   }
 
-  else if (nomeComando == "list-participants") {
-    return sistema->list_participants();
+  else if (commandName == "list-participants") {
+    return system->list_participants();
   }
 
-  else if (nomeComando == "list-channels") {
-    return sistema->list_channels();
+  else if (commandName == "list-channels") {
+    return system->list_channels();
   }
 
-  else if (nomeComando == "create-channel") {
-    string nome, tipo;
-    buf >> nome;
-    buf >> tipo;
-    return sistema->create_channel(nome, tipo);
+  else if (commandName == "create-channel") {
+    string name, type;
+    buf >> name;
+    buf >> type;
+    return system->create_channel(name, type);
   }
 
-  else if (nomeComando == "enter-channel") {
-    string nome;
-    buf >> nome;
-    return sistema->enter_channel(nome);
+  else if (commandName == "enter-channel") {
+    string name;
+    buf >> name;
+    return system->enter_channel(name);
   }
 
-  else if (nomeComando == "leave-channel") {
-    return sistema->leave_channel();
+  else if (commandName == "leave-channel") {
+    return system->leave_channel();
   }
   
-  else if (nomeComando == "send-message") {
-    string mensagem;
-    mensagem = restoDe(buf);
-    return sistema->send_message(mensagem);
+  else if (commandName == "send-message") {
+    string message;
+    message = restOf(buf);
+    return system->send_message(message);
   }
   
-  else if (nomeComando == "list-messages") {
-    return sistema->list_messages();
+  else if (commandName == "list-messages") {
+    return system->list_messages();
   }
 
   else {
-    return "Comando não reconhecido [" + nomeComando + "]";
+    return "Comando não reconhecido [" + commandName + "]";
   }
 }
 

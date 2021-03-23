@@ -2,23 +2,23 @@
 
 all: concordo
 
-# Compila tudo e cria o executável "musify"
+# Compila tudo e cria o executável "concordo"
 concordo: objects
 	g++ *.o -Iinclude -std=c++11 -Wall -o concordo
 
-main.o: src/main.cpp sistema.o executor.o usuario.o
+main.o: src/main.cpp system.o executor.o user.o
 	g++ src/main.cpp -Iinclude -c
 
-sistema.o: src/sistema.cpp usuario.o
-	g++ src/sistema.cpp -Iinclude -c
+system.o: src/system.cpp user.o
+	g++ src/system.cpp -Iinclude -c
 
-executor.o: src/executor.cpp sistema.o
+executor.o: src/executor.cpp system.o
 	g++ src/executor.cpp -Iinclude -c
 
-usuario.o: src/usuario.cpp
-	g++ src/usuario.cpp -Iinclude -c
+user.o: src/user.cpp
+	g++ src/user.cpp -Iinclude -c
 
-objects: main.o sistema.o executor.o usuario.o
+objects: main.o system.o executor.o user.o
 
 clean:
 	rm *.o concordo

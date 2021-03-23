@@ -1,6 +1,6 @@
 #ifndef EXECUTOR_H
 #define EXECUTOR_H
-#include "sistema.h"
+#include "system.h"
 #include <istream>
 #include <ostream>
 #include <sstream>
@@ -9,16 +9,16 @@ using namespace std;
 
 class Executor {
   private:
-  Sistema * sistema;
+  System * system;
   stringstream ss;
-  bool sair = false;
+  bool quit = false;
 
   public:
-  Executor(Sistema &sistema);
+  Executor(System &system);
 
-  void iniciar(istream &in, ostream &out);
+  void start(istream &in, ostream &out);
 
-  string processarLinha(string linha);
+  string processLine(string line);
 };
 
 #endif

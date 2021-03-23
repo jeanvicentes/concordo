@@ -1,4 +1,4 @@
-#include "sistema.h"
+#include "system.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -6,20 +6,20 @@
 using namespace std;
 
 /* COMANDOS */
-string Sistema::quit() {
+string System::quit() {
   return "Saindo...";
 }
 
 /** Cria um novo usuário com as informações passadas por parâmetro e retorna uma mensagem.
  * @param email email inserido.
- * @param senha senha inserida.
- * @param nome nome inserido.
+ * @param password senha inserida.
+ * @param name nome inserido.
  * @return uma mensagem de sucesso ou informando que o email já existe.
 */
-string Sistema::create_user (const string email, const string senha, const string nome) {
-  vector<Usuario>::iterator it = usuarios.begin();
+string System::create_user (const string email, const string password, const string name) {
+  vector<User>::iterator it = users.begin();
   // Verifica se já existe usuário cadastrado com esse email
-  while (it != usuarios.end()) {
+  while (it != users.end()) {
     if (it->getEmail() == email) {
       return "Usuário já existe!";
     }
@@ -27,77 +27,77 @@ string Sistema::create_user (const string email, const string senha, const strin
     it++;
   }
   // Gera um id automaticamente conforme o tamanho do vetor
-  int id = usuarios.size();
+  int id = users.size();
 
   // Cria o novo usuário e adiciona ao final do vetor
-  Usuario novoUsuario(id, nome, email, senha);
-  usuarios.push_back(novoUsuario);
+  User newUser(id, name, email, password);
+  users.push_back(newUser);
 
   return "Usuário criado";
 }
 
-string Sistema::login(const string email, const string senha) {
+string System::login(const string email, const string password) {
 
   return "login NÃO IMPLEMENTADO";
 }
 
-string Sistema::disconnect() {
+string System::disconnect() {
   return "disconnect NÃO IMPLEMENTADO";
 }
 
-string Sistema::create_server(const string nome) {
+string System::create_server(const string name) {
   return "create_server NÃO IMPLEMENTADO";
 }
 
-string Sistema::set_server_desc(const string nome, const string descricao) {
+string System::set_server_desc(const string name, const string description) {
   return "set_server_desc NÃO IMPLEMENTADO";
 }
 
-string Sistema::set_server_invite_code(const string nome, const string codigo) {
+string System::set_server_invite_code(const string name, const string code) {
   return "set_server_invite_code NÃO IMPLEMENTADO";
 }
 
-string Sistema::list_servers() {
+string System::list_servers() {
   return "list_servers NÃO IMPLEMENTADO";
 }
 
-string Sistema::remove_server(const string nome) {
+string System::remove_server(const string name) {
   return "remove_server NÃO IMPLEMENTADO";
 }
 
-string Sistema::enter_server(const string nome, const string codigo) {
+string System::enter_server(const string name, const string code) {
   return "enter_server NÃO IMPLEMENTADO";
 }
 
-string Sistema::leave_server() {
+string System::leave_server() {
   return "leave_server NÃO IMPLEMENTADO";
 }
 
-string Sistema::list_participants() {
+string System::list_participants() {
   return "list_participants NÃO IMPLEMENTADO";
 }
 
-string Sistema::list_channels() {
+string System::list_channels() {
   return "list_channels NÃO IMPLEMENTADO";
 }
 
-string Sistema::create_channel(const string nome, const string tipo) {
+string System::create_channel(const string name, const string type) {
   return "create_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::enter_channel(const string nome) {
+string System::enter_channel(const string name) {
   return "enter_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::leave_channel() {
+string System::leave_channel() {
   return "leave_channel NÃO IMPLEMENTADO";
 }
 
-string Sistema::send_message(const string mensagem) {
+string System::send_message(const string message) {
   return "send_message NÃO IMPLEMENTADO";
 }
 
-string Sistema::list_messages() {
+string System::list_messages() {
   return "list_messages NÃO IMPLEMENTADO";
 }
 
