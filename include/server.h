@@ -18,11 +18,14 @@ class Server {
     vector<int> memberIds; /**< Lista de IDs de usuários que estão no servidor */
   public:
     Server(); /**< Construtor do servidor */
-    Server(int _ownerId, string _name);  /**< Construtor parametrizado do servidor */
+    Server(const int _ownerId, const string _name);  /**< Construtor parametrizado do servidor */
     ~Server(); /**< Destrutor do servidor */
 
     int getOwner(); /**< Obtém o ID do dono do servidor */
     string getName(); /**< Obtém o nome do servidor */
+
+    void setDescription(const string desc); /**< Adiciona a descrição do servidor */
+    void setInvitationCode(const string code); /**< Adiciona código de convite */
 };
 
 #endif

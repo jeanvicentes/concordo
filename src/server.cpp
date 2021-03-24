@@ -9,11 +9,12 @@ Server::Server() {
 }
 
 /** Inicializa os atributos nome e id do dono com os valores do parâmetro */
-Server::Server(int _ownerId, string _name) {
+Server::Server(const int _ownerId, const string _name) {
   ownerId = _ownerId;
   name = _name;
   description = "";
   invitationCode = "";
+  memberIds.push_back(ownerId);
 }
 
 Server::~Server() {
@@ -25,4 +26,12 @@ int Server::getOwner() {
 
 string Server::getName() {
   return name;
+}
+
+void Server::setDescription(const string desc) {
+  description = desc;
+}
+
+void Server::setInvitationCode(const string code) {
+  invitationCode = code;
 }

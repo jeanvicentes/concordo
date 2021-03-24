@@ -36,6 +36,11 @@ string System::create_user (const string email, const string password, const str
   return "Usuário criado";
 }
 
+/** Altera a variável que armazena o id do usuário logado, caso exista um cadastrado com o email e a senha passados por parametro.
+ * @param email email inserido.
+ * @param password senha inserida.
+ * @return uma mensagem de sucesso ou informando que as credenciais são inválidas.
+*/
 string System::login(const string email, const string password) {
   vector<User>::iterator it = users.begin();
   // Verifica se existe usuário com esse email e senha
@@ -54,6 +59,9 @@ string System::login(const string email, const string password) {
   return "Senha ou usuário inválidos!";
 }
 
+/** Altera a variável que armazena o id do usuário logado para 0, caso exista um usuário logado.
+ * @return uma mensagem de sucesso ou informando que não há nenhum conectado.
+*/
 string System::disconnect() {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -72,6 +80,10 @@ string System::disconnect() {
   return "Desconectando usuário " + it->getEmail();
 }
 
+/** Cria um novo servidor com o nome passado por parâmetro (caso não exista nenhum com o mesmo nome) e retorna uma mensagem.
+ * @param name nome inserido.
+ * @return uma mensagem de sucesso ou informando que o servidor já existe, ou não há usuário conectado.
+*/
 string System::create_server(const string name) {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -93,12 +105,64 @@ string System::create_server(const string name) {
   return "Servidor criado";
 }
 
+/** Altera a descrição do servidor passado por parâmetro, caso o usuário logado seja o dono, e retorna uma mensagem.
+ * @param name nome do servidor.
+ * @param description descrição inserida.
+ * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
+*/
 string System::set_server_desc(const string name, const string description) {
-  return "set_server_desc NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  vector<Server>::iterator it;
+  // Verifica se existe um servidor com esse nome
+  it = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+  if (it == servers.end()) {
+    return "Servidor '" + name + "' não existe";
+  }
+  // Verifica se o usuário logado é o dono
+  if (it->getOwner() != loggedUserId) {
+    return "Você não pode alterar a descrição de um servidor que não foi criado por você";
+  }
+
+  // Caso esteja tudo ok, altera a descrição
+  it->setDescription(description);
+  return "Descrição do servidor '" + name + "' modificada!";
 }
 
+/** Adiciona um código de convite a um servidor, ou o remove caso o parâmetro seja uma string vazia.
+ * @param name nome do servidor.
+ * @param code código de convite inserido ou string vazia.
+ * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
+*/
 string System::set_server_invite_code(const string name, const string code) {
-  return "set_server_invite_code NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  vector<Server>::iterator it;
+  // Verifica se existe um servidor com esse nome
+  it = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+  if (it == servers.end()) {
+    return "Servidor '" + name + "' não existe";
+  }
+  // Verifica se o usuário logado é o dono
+  if (it->getOwner() != loggedUserId) {
+    return "Você não pode alterar o código de convite de um servidor que não foi criado por você";
+  }
+  // Se está tudo ok e foi passado um código
+  if (code.length() > 0) {
+    it->setInvitationCode(code);
+    return "Código de convite do servidor '" + name +"' modificado!";
+  }
+  // Caso não tenha um código no comando
+  it->setInvitationCode("");
+  return "Código de convite do servidor '" + name +"' removido!";
 }
 
 string System::list_servers() {
