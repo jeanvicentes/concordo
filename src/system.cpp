@@ -166,7 +166,24 @@ string System::set_server_invite_code(const string name, const string code) {
 }
 
 string System::list_servers() {
-  return "list_servers NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+
+  vector<Server>::iterator it = servers.begin();
+  ostringstream output;
+
+  // Percorre o vector redirecionando os nomes dos servidores para o objeto de saída
+  output << it->getName();
+  ++it;
+  while (it != servers.end()) {
+    output << endl << it->getName();
+    ++it;
+  }
+
+  // Retorna o objeto ostringstream convertido para string
+  return output.str();
 }
 
 string System::remove_server(const string name) {
