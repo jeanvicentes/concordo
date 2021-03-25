@@ -2,7 +2,7 @@
 
 Concordo é um sistema em C++ similar ao Discord, operado através de comandos de uma única linha, desenvolvido como atividade 3 para a disciplina de Linguagem de Programação I do curso Bacharelado em Tecnologia da Informação.
 
-Existe um executor que faz a interpretação dos comandos e executa o método correto do sistema.
+Existe um executor que faz a interpretação dos comandos e executa o método correto no sistema.
 
 ## Para compilar
 

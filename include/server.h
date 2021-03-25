@@ -24,6 +24,7 @@ class Server {
     int getOwner(); /**< Obtém o ID do dono do servidor */
     string getName(); /**< Obtém o nome do servidor */
     string getInvitationCode(); /**< Obtém o código de convite do servidor */
+    vector<int> getMemberIds(); /**< Obtém a lista de IDs de usuários que estão no servidor */
 
     void setDescription(const string desc); /**< Adiciona a descrição do servidor */
     void setInvitationCode(const string code); /**< Adiciona código de convite */

@@ -165,6 +165,9 @@ string System::set_server_invite_code(const string name, const string code) {
   return "Código de convite do servidor '" + name +"' removido!";
 }
 
+/** Percorre a lista de servidores imprimindo seus nomes num objeto ostringstream e retorna a conversão para string.
+ * @return uma string contendo a lista de todos os servidores do sistema.
+*/
 string System::list_servers() {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -186,6 +189,10 @@ string System::list_servers() {
   return output.str();
 }
 
+/** Recebe um nome de um servidor por parâmetro e o remove do vector, caso ele exista e o usuário logado seja o dono dele.
+ * @param name nome do servidor.
+ * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
+*/
 string System::remove_server(const string name) {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -209,6 +216,11 @@ string System::remove_server(const string name) {
   return "Servidor '" + name + "' removido";
 }
 
+/** Adiciona o id do usuário na lista de membros do servidor caso ele tenha inserido o código de convite correto, ou não tenha código, ou seja o dono.
+ * @param name nome do servidor.
+ * @param code código inserido pelo usuário.
+ * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
+*/
 string System::enter_server(const string name, const string code) {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -238,12 +250,57 @@ string System::enter_server(const string name, const string code) {
   return "Entrou no servidor com sucesso";
 }
 
+/** Reseta a propriedade que armazena o nome do servidor visualizado no momento.
+ * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado.
+*/
 string System::leave_server() {
-  return "leave_server NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+  
+  // Caso tudo ok, desconecta o usuário do servidor atual
+  string temp = connectedServerName;
+  connectedServerName = "";
+  return "Saindo do servidor '" + temp + "'";
 }
 
 string System::list_participants() {
-  return "list_participants NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+
+  // Obtém o servidor na lista pelo nome
+  string name = connectedServerName;
+  auto target = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+
+  // Obtém a lista de ids dos membros
+  vector<int> members = target->getMemberIds();
+
+  ostringstream output;
+
+  // Percorre a lista de membros do servidor acessando os nomes na lista de usuários do sistema
+  auto it = members.begin();
+  output << users[*it - 1].getName();
+  ++it;
+  while (it != members.end()) {
+    output << endl << users[*it - 1].getName();
+    ++it;
+  }
+  
+  // Retorna o objeto ostringstream convertido para string
+  return output.str();
 }
 
 string System::list_channels() {

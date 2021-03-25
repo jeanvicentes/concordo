@@ -33,6 +33,10 @@ string Server::getInvitationCode() {
   return invitationCode;
 }
 
+vector<int> Server::getMemberIds() {
+  return memberIds;
+}
+
 void Server::setDescription(const string desc) {
   description = desc;
 }
