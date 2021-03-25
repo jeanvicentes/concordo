@@ -4,7 +4,7 @@ all: concordo
 
 # Compila tudo e cria o executável "concordo"
 concordo: objects
-	g++ *.o -Iinclude -std=c++11 -Wall -o concordo
+	g++ *.o -Iinclude -std=c++14 -Wall -o concordo
 
 main.o: src/main.cpp system.o executor.o
 	g++ src/main.cpp -Iinclude -c

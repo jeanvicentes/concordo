@@ -1,4 +1,5 @@
 #include "server.h"
+#include <algorithm>
 
 /** Inicializa os atributos com valores nulos */
 Server::Server() {
@@ -28,10 +29,25 @@ string Server::getName() {
   return name;
 }
 
+string Server::getInvitationCode() {
+  return invitationCode;
+}
+
 void Server::setDescription(const string desc) {
   description = desc;
 }
 
 void Server::setInvitationCode(const string code) {
   invitationCode = code;
+}
+
+/** Adiciona ao final da lista de membros o ID passado por parâmetro, caso ele não esteja na lista
+ * @param id id do novo membro.
+*/
+void Server::addMember(const int id) {
+  vector<int>::iterator it;
+  it = find(memberIds.begin(), memberIds.end(), id);
+  if (it == memberIds.end()) {
+    memberIds.push_back(id);
+  }
 }

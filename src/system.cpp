@@ -121,7 +121,7 @@ string System::set_server_desc(const string name, const string description) {
     return name == server.getName();
   });
   if (it == servers.end()) {
-    return "Servidor '" + name + "' não existe";
+    return "Servidor '" + name + "' não encontrado";
   }
   // Verifica se o usuário logado é o dono
   if (it->getOwner() != loggedUserId) {
@@ -149,7 +149,7 @@ string System::set_server_invite_code(const string name, const string code) {
     return name == server.getName();
   });
   if (it == servers.end()) {
-    return "Servidor '" + name + "' não existe";
+    return "Servidor '" + name + "' não encontrado";
   }
   // Verifica se o usuário logado é o dono
   if (it->getOwner() != loggedUserId) {
@@ -187,11 +187,55 @@ string System::list_servers() {
 }
 
 string System::remove_server(const string name) {
-  return "remove_server NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  vector<Server>::iterator it;
+  // Verifica se existe um servidor com esse nome
+  it = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+  if (it == servers.end()) {
+    return "Servidor '" + name + "' não encontrado";
+  }
+  // Verifica se o usuário logado é o dono
+  if (it->getOwner() != loggedUserId) {
+    return "Você não é o dono do servidor '" + name + "'";
+  }
+  // Se estiver tudo ok, remove o servidor do vector
+  servers.erase(it);
+
+  return "Servidor '" + name + "' removido";
 }
 
 string System::enter_server(const string name, const string code) {
-  return "enter_server NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  vector<Server>::iterator it;
+  // Verifica se existe um servidor com esse nome
+  it = find_if(servers.begin(), servers.end(), [name](Server server) {
+    return name == server.getName();
+  });
+  if (it == servers.end()) {
+    return "Servidor '" + name + "' não encontrado";
+  }
+  // Verifica se o usuário logado é não é o dono
+  if (it->getOwner() != loggedUserId) {
+    // Verifica se possui código de convite
+    if (it->getInvitationCode().length() > 0) {
+      // Verifica se o código está errado
+      if (code != it->getInvitationCode()) {
+        return "Servidor requer código de convite";
+      }
+    }
+  }
+  // Caso tudo ok, adiciona no servidor
+  connectedServerName = name;
+  it->addMember(loggedUserId);
+  return "Entrou no servidor com sucesso";
 }
 
 string System::leave_server() {
