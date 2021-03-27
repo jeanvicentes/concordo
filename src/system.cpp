@@ -77,6 +77,10 @@ string System::disconnect() {
   // Desconecta o usuário atual
   loggedUserId = 0;
 
+  // Reseta o servidor e canal que ele estava visualizando
+  connectedServerName = "";
+  connectedChannelName = "";
+
   return "Desconectando usuário " + it->getEmail();
 }
 
@@ -269,6 +273,9 @@ string System::leave_server() {
   return "Saindo do servidor '" + temp + "'";
 }
 
+/** Percorre a lista de participantes do servidor atual imprimindo seus nomes num objeto ostringstream e retorna a conversão para string.
+ * @return uma string contendo a lista de todos os participantes do servidor.
+*/
 string System::list_participants() {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
