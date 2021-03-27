@@ -1,23 +1,30 @@
 .DEFAULT_GOAL := all
 
-sistema.o: sistema.cpp sistema.h
-	g++ sistema.cpp -c
+all: concordo
 
-executor.o: executor.cpp executor.h sistema.o
-	g++ executor.cpp -c
+# Compila tudo e cria o executável "concordo"
+concordo: objects
+	g++ *.o -Iinclude -std=c++14 -Wall -o concordo
 
-usuario.o: usuario.cpp usuario.h
-	g++ usuario.cpp -c
+main.o: src/main.cpp system.o executor.o
+	g++ src/main.cpp -Iinclude -c
 
-objects: sistema.o executor.o
+system.o: src/system.cpp user.o server.o
+	g++ src/system.cpp -Iinclude -c
 
-concordo: objects concordo.cpp
-	g++ -Wall -fsanitize=address sistema.o executor.o concordo.cpp -o concordo
+executor.o: src/executor.cpp system.o
+	g++ src/executor.cpp -Iinclude -c
+
+user.o: src/user.cpp
+	g++ src/user.cpp -Iinclude -c
+
+server.o: src/server.cpp
+	g++ src/server.cpp -Iinclude -c
+
+objects: main.o system.o executor.o user.o server.o
 
 clean:
 	rm *.o concordo
-
-all: concordo
 
 run:
 	./concordo
