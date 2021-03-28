@@ -212,7 +212,7 @@ string System::remove_server(const string name) {
   }
   // Verifica se o usuário logado é o dono
   if (it->getOwner() != loggedUserId) {
-    return "Você não é o dono do servidor '" + name + "'";
+    return "Você não é dono(a) do servidor '" + name + "'";
   }
   // Se estiver tudo ok, remove o servidor do vector
   servers.erase(it);
@@ -296,7 +296,7 @@ string System::list_participants() {
   vector<int> members = target->getMemberIds();
 
   ostringstream output;
-
+  output << "Membros de '" + name + "':" << endl;
   // Percorre a lista de membros do servidor acessando os nomes na lista de usuários do sistema
   auto it = members.begin();
   output << users[*it - 1].getName();

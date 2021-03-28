@@ -1,54 +1,63 @@
-create-user isaacfranco@imd.ufrn.br senhalegal Isaac Franco Fernandes
-create-user isaacfranco@imd.ufrn.br senhalegal Isaac Franco Fernandes
-create-user renan@imd.ufrn.br senha Renan
-create-user julio@imd.ufrn.br senha Julio
-login isaacfranco@imd.ufrn.br senhalegal
+create-user monica@gmail.com sansao123 Mônica
+create-user monica@gmail.com sansao321 Mônica
+create-user cebolinha@gmail.com senha Cebolinha
+create-user magali@gmail.com mingau123 Magali
+login monica@gmail.com SENHA_ERRADA
+login monica@gmail.com sansao123
 disconnect
 disconnect
-login isaacfranco@imd.ufrn.br SENHA_ERRADA
-login isaacfranco@imd.ufrn.br senhalegal
-create-server servidor-legal
-set-server-desc servidor-legal Um servidor muito banaca e coisa e tal
-create-server servidor-ruim
-set-server-desc servidor-ruim Um servidor lixo total
-set-server-invite-code servidor-legal 123
+create-server dona-da-rua
+login monica@gmail.com sansao123
+create-server dona-da-rua
+create-server dona-da-rua
+set-server-desc dona-da-rua Onde Mônica é rainha e o resto nadinha
 disconnect
-set-server-invite-code servidor-legal 456
-login renan@imd.ufrn.br senha Renan
-set-server-invite-code servidor-legal 789
-login isaacfranco@imd.ufrn.br senhalegal
-set-server-invite-code servidor-legal 321
-set-server-invite-code servidor-legal
+login cebolinha@gmail.com senha
+set-server-desc dona-da-rua Mônica golducha, baixinha e dentuça
+create-server dono-da-lua
+set-server-desc dono-da-lua Onde nascem os planos infalíveis
+disconnect
+login monica@gmail.com sansao123
+set-server-invite-code dona-da-rua 123
+disconnect
+set-server-invite-code dona-da-rua 456
+login cebolinha@gmail.com senha
+set-server-invite-code dona-da-rua 789
+login monica@gmail.com sansao123
+set-server-invite-code dona-da-rua 321
+set-server-invite-code dona-da-rua
 set-server-invite-code servidor-inexistente 123
 set-server-invite-code servidor-inexistente
 disconnect
 list-servers
-login isaacfranco@imd.ufrn.br senhalegal
+login monica@gmail.com sansao123
 list-servers
 remove-server servidor-inexistente
-remove-server servidor-legal
+remove-server dona-da-rua
+remove-server dono-da-lua
 list-servers
 disconnect
-remove-server servidor-ruim
-login isaacfranco@imd.ufrn.br senhalegal
-remove-server servidor-ruim
-create-server servidor-bacana
-create-server servidor-fuderoso
+remove-server dono-da-lua
+login cebolinha senha
+remove-server dono-da-lua
+create-server gamers
+login magali@gmail.com mingau123
+create-server receitinhas
+set-server-invite-code receitinhas 123
 list-servers
-enter-server servidor-bacana
-leave-server servidor-bacana
-list-servers
-login isaacfranco@imd.ufrn.br senhalegal
-remove-server servidor-bacana
-enter-server servidor-bacana
+enter-server receitinhas 123
+leave-server receitinhas
+leave-server receitinhas
+login monica@gmail.com sansao123
+enter-server receitinhas
 list-participants
-login renan@imd.ufrn.br senha
-create-server servidor-sinistro
-enter-server servidor-sinistro
-login julio@imd.ufrn.br senha
-enter-server servidor-sinistro
-login isaacfranco@imd.ufrn.br senhalegal
-enter-server servidor-sinistro
+login cebolinha@gmail.com senha
+create-server bairro-do-limoeiro
+enter-server bairro-do-limoeiro
+login magali@gmail.com mingau123
+enter-server bairro-do-limoeiro
+login monica@gmail.com sansao123
+enter-server bairro-do-limoeiro
 list-participants
 quit
-create-user naodeveprocessar@imd.ufrn.br naodevechegaraqui Não deve chegar aqui
+create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
