@@ -37,6 +37,10 @@ vector<int> Server::getMemberIds() {
   return memberIds;
 }
 
+vector<Channel*> Server::getChannels() {
+  return channels;
+}
+
 void Server::setDescription(const string desc) {
   description = desc;
 }
@@ -54,4 +58,8 @@ void Server::addMember(const int id) {
   if (it == memberIds.end()) {
     memberIds.push_back(id);
   }
+}
+
+void Server::addChannel(Channel* newChannel) {
+  channels.push_back(newChannel);
 }

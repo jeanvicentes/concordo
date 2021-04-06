@@ -5,6 +5,9 @@
 #include <iostream>
 #include "user.h"
 #include "server.h"
+#include "channel.h"
+#include "textChannel.h"
+#include "voiceChannel.h"
 
 using namespace std;
 

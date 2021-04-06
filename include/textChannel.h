@@ -15,8 +15,8 @@ class TextChannel : public Channel {
     TextChannel(string name); /**< Construtor de canal de texto */
     ~TextChannel(); /**< Destrutor de canal de texto */
 
-    void addMessage(Message newMessage); /**< Adiciona uma nova mensagem a lista */
     channelType getType(); /**< Retorna o tipo do canal */
+    // void addMessage(Message newMessage); /**< Adiciona uma nova mensagem a lista */
 };
 
 #endif

@@ -315,7 +315,46 @@ string System::list_channels() {
 }
 
 string System::create_channel(const string name, const string type) {
-  return "create_channel NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+
+  // Obtém o servidor na lista pelo nome
+  string serverName = connectedServerName;
+  auto target = find_if(servers.begin(), servers.end(), [serverName](Server server) {
+    return serverName == server.getName();
+  });
+
+  // Obtém a lista de canais
+  vector<Channel*> channels = target->getChannels();
+
+  // Percorre a lista verificando se existe canal com esse nome
+  string targetName = name;
+  channelType targetType = type == "texto" ? TEXT : VOICE;
+  auto it = find_if(channels.begin(), channels.end(), [targetName, targetType](Channel* channel) {
+    return targetName == channel->getName() && targetType == channel->getType();
+  });
+
+  if (it != channels.end()) {
+    return "Canal de " + type + " '" + name + "' já existe!";
+  } else {
+    Channel * newChannel;
+    if (type == "texto") {
+      newChannel = new TextChannel(name);
+    } else if (type == "voz") {
+      newChannel = new VoiceChannel(name);
+    } else {
+      return "Tipo inválido";
+    }
+
+    target->addChannel(newChannel);
+    return "Canal de " + type + " '" + name + "' criado";
+  }
 }
 
 string System::enter_channel(const string name) {

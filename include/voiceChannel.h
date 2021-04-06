@@ -15,6 +15,7 @@ class VoiceChannel : public Channel {
     ~VoiceChannel(); /**< Destrutor do canal de voz */
 
     channelType getType(); /**< Retorna o tipo do canal */
+    // void addMessage(Message newMessage); /**< Sobrescreve o atributo com uma nova mensagem */
 };
 
 #endif

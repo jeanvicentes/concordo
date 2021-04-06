@@ -59,5 +59,7 @@ enter-server bairro-do-limoeiro
 login monica@gmail.com sansao123
 enter-server bairro-do-limoeiro
 list-participants
+create-channel chat texto
+create-channel chat texto
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
