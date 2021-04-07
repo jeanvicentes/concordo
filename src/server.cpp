@@ -60,6 +60,9 @@ void Server::addMember(const int id) {
   }
 }
 
+/** Adiciona ao final da lista de canais o ponteiro para o canal passado por parâmetro
+ * @param newChannel ponteiro para canal.
+*/
 void Server::addChannel(Channel* newChannel) {
   channels.push_back(newChannel);
 }

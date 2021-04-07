@@ -310,10 +310,55 @@ string System::list_participants() {
   return output.str();
 }
 
+/** Percorre a lista de canais do servidor imprimindo seus nomes num objeto ostringstream e retorna a conversão para string.
+ * @return uma string contendo a lista de todos os canais de texto e voz do servidor.
+*/
 string System::list_channels() {
-  return "list_channels NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+
+  // Obtém o servidor na lista pelo nome
+  string serverName = connectedServerName;
+  auto target = find_if(servers.begin(), servers.end(), [serverName](Server server) {
+    return serverName == server.getName();
+  });
+
+  // Obtém a lista de canais
+  vector<Channel*> channels = target->getChannels();
+
+  ostringstream outputT;
+  ostringstream outputV;
+
+  // Imprime os canais de texto e voz nas suas respectivas saidas 
+  outputT << "#canais de texto";
+  outputV << "#canais de voz";
+  auto it = channels.begin();
+  while (it != channels.end()) {
+    if ((*it)->getType() == TEXT) {
+      outputT << endl << (*it)->getName();
+    } else {
+      outputV << endl << (*it)->getName();
+    }
+    ++it;
+  }
+
+  // Reune os dois numa unica saída
+  outputT << endl << outputV.str();
+  // Retorna o objeto ostringstream convertido para string
+  return outputT.str();
 }
 
+/** Percorre a lista de participantes do servidor atual imprimindo seus nomes num objeto ostringstream e retorna a conversão para string.
+ * @param name nome do canal.
+ * @param type tipo do canal (texto ou voz).
+ * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado.
+*/
 string System::create_channel(const string name, const string type) {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
@@ -343,6 +388,7 @@ string System::create_channel(const string name, const string type) {
   if (it != channels.end()) {
     return "Canal de " + type + " '" + name + "' já existe!";
   } else {
+    // Cria um novo canal com o tipo escolhido
     Channel * newChannel;
     if (type == "texto") {
       newChannel = new TextChannel(name);
@@ -351,7 +397,7 @@ string System::create_channel(const string name, const string type) {
     } else {
       return "Tipo inválido";
     }
-
+    // Adiciona na lista do servidor
     target->addChannel(newChannel);
     return "Canal de " + type + " '" + name + "' criado";
   }

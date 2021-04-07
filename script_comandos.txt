@@ -61,5 +61,8 @@ enter-server bairro-do-limoeiro
 list-participants
 create-channel chat texto
 create-channel chat texto
+create-channel chat texto
+create-channel joguinhos voz
+list-channels
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
