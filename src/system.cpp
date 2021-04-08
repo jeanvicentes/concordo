@@ -238,7 +238,7 @@ string System::enter_server(const string name, const string code) {
   if (it == servers.end()) {
     return "Servidor '" + name + "' não encontrado";
   }
-  // Verifica se o usuário logado é não é o dono
+  // Verifica se o usuário logado não é o dono
   if (it->getOwner() != loggedUserId) {
     // Verifica se possui código de convite
     if (it->getInvitationCode().length() > 0) {
@@ -354,10 +354,10 @@ string System::list_channels() {
   return outputT.str();
 }
 
-/** Percorre a lista de participantes do servidor atual imprimindo seus nomes num objeto ostringstream e retorna a conversão para string.
+/** Cria um novo canal com o nome e tipo passados por parâmetro e adiciona na lista de canais do servidor atual.
  * @param name nome do canal.
  * @param type tipo do canal (texto ou voz).
- * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado.
+ * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal já existe.
 */
 string System::create_channel(const string name, const string type) {
   // Verifica se existe usuario logado
@@ -384,7 +384,6 @@ string System::create_channel(const string name, const string type) {
   auto it = find_if(channels.begin(), channels.end(), [targetName, targetType](Channel* channel) {
     return targetName == channel->getName() && targetType == channel->getType();
   });
-
   if (it != channels.end()) {
     return "Canal de " + type + " '" + name + "' já existe!";
   } else {
@@ -403,12 +402,61 @@ string System::create_channel(const string name, const string type) {
   }
 }
 
+/** Altera a variável que guarda o canal visualizado no momento para o primeiro canal da lista com nome igual ao passado por parâmetro.
+ * @param name nome do canal.
+ * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal não existe.
+*/
 string System::enter_channel(const string name) {
-  return "enter_channel NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+
+  // Obtém o servidor na lista pelo nome
+  string serverName = connectedServerName;
+  auto target = find_if(servers.begin(), servers.end(), [serverName](Server server) {
+    return serverName == server.getName();
+  });
+
+  // Obtém a lista de canais do servidor
+  vector<Channel*> channels = target->getChannels();
+
+  // Percorre a lista verificando se existe canal com esse nome
+  string targetName = name;
+  auto it = find_if(channels.begin(), channels.end(), [targetName](Channel* channel) {
+    return targetName == channel->getName();
+  });
+  if (it == channels.end()) {
+    return "Canal '" + name + "' não existe";
+  } else {
+    // Guarda o canal conectado
+    connectedChannelName = (*it)->getName();
+  }
+
+  return "Entrou no canal '" + name + "'";
 }
 
+/** Reseta a propriedade que armazena o nome do canal visualizado no momento.
+ * @return uma mensagem de sucesso ou informando que não há canal visualizado no momento, ou não há usuário conectado.
+*/
 string System::leave_channel() {
-  return "leave_channel NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum canal
+  if (connectedChannelName.length() == 0) {
+    return "Você não está visualizando nenhum canal";
+  }
+  
+  // Caso tudo ok, desconecta o usuário do canal atual
+  string temp = connectedChannelName;
+  connectedChannelName = "";
+  return "Saindo do canal '" + temp + "'";
 }
 
 string System::send_message(const string message) {
