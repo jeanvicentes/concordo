@@ -1,9 +1,9 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 #include <iostream>
+#include <vector>
 #include "message.h"
-
-using namespace std;
+#include "user.h"
 
 enum channelType {
   TEXT,
@@ -13,14 +13,16 @@ enum channelType {
 /** Classe que representa um canal */
 class Channel {
   protected:
-    string name; /**< Nome do canal */
+    std::string name; /**< Nome do canal */
   public:
-    Channel(string _name) { name = _name; } /**< Construtor parametrizado de canal */
+    Channel(std::string _name) { name = _name; } /**< Construtor parametrizado de canal */
     ~Channel() {} /**< Destrutor de canal */
 
-    string getName() { return name; } /**< Retorna o nome */
+    std::string getName() { return name; } /**< Retorna o nome */
+
     virtual channelType getType() = 0; /**< Método virtual que retorna o tipo do canal */
-    // virtual void addMessage(Message newMessage) = 0; /**< Método virtual que adiciona uma mensagem */
+    virtual void addMessage(Message newMessage) = 0; /**< Método virtual que adiciona uma mensagem */
+    virtual std::string printMessages(std::vector<User> users) = 0; /**< Método virtual que retorna as mensagens formatadas em string */
 };
 
 

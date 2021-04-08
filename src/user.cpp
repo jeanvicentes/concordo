@@ -1,5 +1,7 @@
 #include "user.h"
 
+using namespace std;
+
 /** Inicializa os atributos com valores nulos */
 User::User() {
   id = 0;

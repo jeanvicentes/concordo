@@ -2,8 +2,18 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <iomanip>      // std::put_time
+#include <ctime>        // std::time_t, struct std::tm, std::localtime
+#include <chrono>       // std::chrono::system_clock
 
 using namespace std;
+using std::chrono::system_clock;
+
+/* Obtém a data e hora atual */
+struct tm* currentTime(){
+	time_t tt =  system_clock::to_time_t(system_clock::now());
+	return localtime(&tt);
+}
 
 /* COMANDOS */
 string System::quit() {
@@ -459,12 +469,79 @@ string System::leave_channel() {
   return "Saindo do canal '" + temp + "'";
 }
 
+/** Cria uma nova mensagem com o conteúdo passado, o id do usuário que enviou e a hora-data e adiciona ao canal atual.
+ * @param message conteúdo da mensagem inserida pelo usuário
+*/
 string System::send_message(const string message) {
-  return "send_message NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+  // Verifica se está vendo algum canal
+  if (connectedChannelName.length() == 0) {
+    return "Você não está visualizando nenhum canal";
+  }
+
+  // Caso tudo ok, cria uma nova mensagem com os atributos
+  ostringstream dateTime; 
+  dateTime << put_time(currentTime(), "%H:%M - %d/%m/%Y");
+  Message newMessage(dateTime.str(), loggedUserId, message);
+
+  // Obtém o servidor na lista pelo nome
+  string serverName = connectedServerName;
+  auto server = find_if(servers.begin(), servers.end(), [serverName](Server server) {
+    return serverName == server.getName();
+  });
+
+  // Obtém a lista de canais do servidor
+  vector<Channel*> channels = server->getChannels();
+
+  // Obtém o primeiro canal de mesmo nome na lista
+  string channelName = connectedChannelName;
+  auto channel = find_if(channels.begin(), channels.end(), [channelName](Channel* channel) {
+    return channelName == channel->getName();
+  });
+
+  // Adiciona a nova mensagem ao canal
+  (*channel)->addMessage(newMessage);
+
 }
 
 string System::list_messages() {
-  return "list_messages NÃO IMPLEMENTADO";
+  // Verifica se existe usuario logado
+  if (loggedUserId == 0) {
+    return "Não está conectado";
+  }
+  // Verifica se está vendo algum servidor
+  if (connectedServerName.length() == 0) {
+    return "Você não está visualizando nenhum servidor";
+  }
+  // Verifica se está vendo algum canal
+  if (connectedChannelName.length() == 0) {
+    return "Você não está visualizando nenhum canal";
+  }
+
+  // Caso tudo ok, obtém o servidor na lista pelo nome
+  string serverName = connectedServerName;
+  auto server = find_if(servers.begin(), servers.end(), [serverName](Server server) {
+    return serverName == server.getName();
+  });
+
+  // Obtém a lista de canais do servidor
+  vector<Channel*> channels = server->getChannels();
+
+  // Obtém o primeiro canal de mesmo nome na lista
+  string channelName = connectedChannelName;
+  auto channel = find_if(channels.begin(), channels.end(), [channelName](Channel* channel) {
+    return channelName == channel->getName();
+  });
+
+  // Retorna a lista de mensagens do canal
+  return (*channel)->printMessages(users);
 }
 
 

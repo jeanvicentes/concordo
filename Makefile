@@ -9,7 +9,7 @@ concordo: objects
 main.o: src/main.cpp system.o executor.o
 	g++ src/main.cpp -Iinclude -c
 
-system.o: src/system.cpp user.o server.o textChannel.o voiceChannel.o
+system.o: src/system.cpp user.o server.o textChannel.o voiceChannel.o message.o
 	g++ src/system.cpp -Iinclude -c
 
 executor.o: src/executor.cpp system.o

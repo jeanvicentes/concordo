@@ -5,18 +5,18 @@
 #include "channel.h"
 #include "message.h"
 
-using namespace std;
-
 /** Classe que representa um canal de texto */
 class TextChannel : public Channel {
   private:
-    vector<Message> messages; /**< Lista de mensagens de texto */
+    std::vector<Message> messages; /**< Lista de mensagens de texto */
   public:
-    TextChannel(string name); /**< Construtor de canal de texto */
+    TextChannel(std::string name); /**< Construtor de canal de texto */
     ~TextChannel(); /**< Destrutor de canal de texto */
 
     channelType getType(); /**< Retorna o tipo do canal */
-    // void addMessage(Message newMessage); /**< Adiciona uma nova mensagem a lista */
+
+    void addMessage(Message newMessage); /**< Adiciona uma nova mensagem a lista */
+    std::string printMessages(std::vector<User> users); /**< Retorna a lista de mensagens formatadas em string */
 };
 
 #endif

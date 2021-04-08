@@ -1,6 +1,8 @@
 #include "server.h"
 #include <algorithm>
 
+using namespace std;
+
 /** Inicializa os atributos com valores nulos */
 Server::Server() {
   ownerId = 0;

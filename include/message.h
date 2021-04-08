@@ -3,18 +3,22 @@
 
 #include <istream>
 
-using namespace std;
-
 /** Classe que representa um mensagem de texto ou de voz */
 class Message {
   private:
-    string dateTime; /**< Data e hora do envio */
+    std::string dateTime; /**< Data e hora do envio */
     int sentBy; /**< ID do usuário que enviou a mensagem */
-    string content; /**< Conteúdo da mensagem */
+    std::string content; /**< Conteúdo da mensagem */
   public:
     Message(); /**< Construtor da mensagem */
-    Message(string date, int id, string text); /**< Construtor parametrizado da mensagem */
+    Message(std::string date, int id, std::string text); /**< Construtor parametrizado da mensagem */
     ~Message(); /**< Destrutor da mensagem */
+
+    std::string getDateTime(); /**< Retorna a data e hora de envio */
+    int getSentBy(); /**< Retorna ID do usuário que enviou a mensagem */
+    std::string getContent(); /**< Retorna o conteúdo da mensagem */
+
+    Message& operator= (Message const &m); /** Sobrecarga do operador de atribuição */
 };
 
 

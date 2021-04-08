@@ -1,45 +1,47 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
+
 #include <vector>
 #include <string>
 #include <iostream>
+
 #include "user.h"
 #include "server.h"
 #include "channel.h"
 #include "textChannel.h"
 #include "voiceChannel.h"
+#include "message.h"
 
-using namespace std;
 
 /** Classe que representa o sistema e concentra todas as operações do Concordo */
 class System {
   private:
-    vector<Server> servers; /** Coleção de servidores */
-    vector<User> users; /**< Coleção de usuários */
+    std::vector<Server> servers; /** Coleção de servidores */
+    std::vector<User> users; /**< Coleção de usuários */
     int loggedUserId; /** se 0: não logado, caso contrário guarda o id do usuário logado */
-    string connectedServerName; /**< Nome do servidor conectado */
-    string connectedChannelName; /**< Nome do canal conectado */
+    std::string connectedServerName; /**< Nome do servidor conectado */
+    std::string connectedChannelName; /**< Nome do canal conectado */
 
   public:
 
-  string quit();
-  string create_user (const string email, const string password, const string name);
-  string login(const string email, const string password);
-  string disconnect();
-  string create_server(const string name);
-  string set_server_desc(const string name, const string description);
-  string set_server_invite_code(const string name, const string code);
-  string list_servers();
-  string remove_server(const string name);
-  string enter_server(const string name, const string code);
-  string leave_server();
-  string list_participants();
-  string list_channels();
-  string create_channel(const string name, const string type);
-  string enter_channel(const string name);
-  string leave_channel();
-  string send_message(const string message);
-  string list_messages();
+  std::string quit();
+  std::string create_user (const std::string email, const std::string password, const std::string name);
+  std::string login(const std::string email, const std::string password);
+  std::string disconnect();
+  std::string create_server(const std::string name);
+  std::string set_server_desc(const std::string name, const std::string description);
+  std::string set_server_invite_code(const std::string name, const std::string code);
+  std::string list_servers();
+  std::string remove_server(const std::string name);
+  std::string enter_server(const std::string name, const std::string code);
+  std::string leave_server();
+  std::string list_participants();
+  std::string list_channels();
+  std::string create_channel(const std::string name, const std::string type);
+  std::string enter_channel(const std::string name);
+  std::string leave_channel();
+  std::string send_message(const std::string message);
+  std::string list_messages();
 };
 
 #endif

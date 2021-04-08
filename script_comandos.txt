@@ -64,8 +64,14 @@ create-channel chat texto
 create-channel clube-do-livro texto
 create-channel joguinhos voz
 list-channels
-enter-channel chat
+enter-channel clube-do-livro
 enter-channel memes
 leave-channel
+enter-channel chat
+send-message Oi turminha, vou entrar no canal de voz
+list-messages
+enter-channel joguinhos
+send-message Estão me ouvindo?
+list-messages
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
