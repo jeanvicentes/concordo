@@ -508,7 +508,7 @@ string System::send_message(const string message) {
 
   // Adiciona a nova mensagem ao canal
   (*channel)->addMessage(newMessage);
-
+  return "Mensagem enviada";
 }
 
 /** Obtém o primeiro canal na lista de nome igual ao canal conectado e lista suas mensagens exibindo o nome de quem enviou, a data e hora e o conteúdo.

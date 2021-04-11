@@ -69,7 +69,6 @@ enter-channel memes
 leave-channel
 enter-channel chat
 send-message Oi turminha, vou entrar no canal de voz
-list-messages
 enter-channel joguinhos
 send-message Estão me ouvindo?
 list-messages
