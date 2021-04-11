@@ -13,7 +13,7 @@ channelType VoiceChannel::getType() {
   return VOICE;
 }
 
-/** Adiciona uma nova mensagem ao fim da lista.
+/** Altera o atributo da última mensagem enviada no canal.
  * @param newMessage objeto contendo as informações da mensagem
 */
 void VoiceChannel::addMessage(Message newMessage) {

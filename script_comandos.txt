@@ -73,5 +73,12 @@ list-messages
 enter-channel joguinhos
 send-message Estão me ouvindo?
 list-messages
+login cebolinha@gmail.com senha
+enter-channel chat
+send-message Vamos de Mineclaft?
+login magali@gmail.com mingau123
+enter-channel chat
+send-message Vou fazer um lanchinho, volto já
+list-messages
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui

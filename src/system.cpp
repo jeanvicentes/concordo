@@ -511,6 +511,9 @@ string System::send_message(const string message) {
 
 }
 
+/** Obtém o primeiro canal na lista de nome igual ao canal conectado e lista suas mensagens exibindo o nome de quem enviou, a data e hora e o conteúdo.
+ * @return uma string contendo a lista de todas as mensagens do canal, se for de texto, ou a última mensagem do canal de voz.
+*/
 string System::list_messages() {
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
