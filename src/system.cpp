@@ -17,10 +17,10 @@ struct tm* currentTime(){
 
 /* Percorre a lista de servidores liberando a memória alocada para os seus canais */
 System::~System(){
-  for (auto i = servers.begin(); i != servers.end(); ++i) {
-    vector<Channel*> channels = i->getChannels();
-    for (auto j = channels.begin(); j != channels.end(); ++j) {
-      delete *j;
+  for (size_t i = 0; i < servers.size(); ++i) {
+    vector<Channel*> channels = servers[i].getChannels();
+    for (size_t j = 0; j < channels.size(); ++j) {
+      delete channels[j];
     }
   }
 }

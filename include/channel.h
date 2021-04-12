@@ -16,7 +16,7 @@ class Channel {
     std::string name; /**< Nome do canal */
   public:
     Channel(std::string _name) { name = _name; } /**< Construtor parametrizado de canal */
-    ~Channel() {} /**< Destrutor de canal */
+    virtual ~Channel() {} /**< Destrutor de canal */
 
     std::string getName() { return name; } /**< Retorna o nome */
 
