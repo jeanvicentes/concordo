@@ -15,6 +15,16 @@ struct tm* currentTime(){
 	return localtime(&tt);
 }
 
+/* Percorre a lista de servidores liberando a memória alocada para os seus canais */
+System::~System(){
+  for (auto i = servers.begin(); i != servers.end(); ++i) {
+    vector<Channel*> channels = i->getChannels();
+    for (auto j = channels.begin(); j != channels.end(); ++j) {
+      delete *j;
+    }
+  }
+}
+
 /* COMANDOS */
 string System::quit() {
   return "Saindo...";

@@ -23,6 +23,7 @@ class System {
     std::string connectedChannelName; /**< Nome do canal conectado */
 
   public:
+  ~System(); /**< Destrutor do sistema */
 
   std::string quit();
   std::string create_user (const std::string email, const std::string password, const std::string name);
