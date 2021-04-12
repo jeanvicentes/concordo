@@ -24,10 +24,10 @@ $ cd concordo
 $ make
 
 # Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER
-$ ./concordo
+$ ./concordo ou make run
 
-# Ou pode executar o distema redirecionando um arquivo de texto com uma lista de comandos como entrada padrão:
-$ ./concordo < script_comandos.txt
+# Ou pode executar o sistema redirecionando um arquivo de texto com uma lista de comandos como entrada padrão:
+$ ./concordo < script_comandos.txt ou make run < script_comandos.txt
 ```
 
 ## Funcionalidades e exemplos
@@ -186,10 +186,10 @@ list-participants
 "Mônica"
 ```
 ### Parte 2
-Comandos relacionados a gestão de canais e mensagens.
+Comandos relacionados a gestão de canais e mensagens. Todos exigem que exista um usuário logado e que ele esteja conectado a algum servidor.
 
 #### **create-channel**
-Descrição
+Cria um novo canal no servidor atual com o nome e o tipo passados por parâmetro. É possível criar canais de mesmo nome e tipos diferentes.
 
 _Exemplo de entrada/saída:_
 ```console
@@ -200,36 +200,76 @@ create-channel chat texto
 "Canal de texto 'chat' já existe!"
 
 create-channel joguinhos voz
-Canal de voz 'joguinhos' criado
+"Canal de voz 'joguinhos' criado"
 ```
-#### **comando**
+#### **list-channels**
+Exibe uma lista com os canais de texto e de voz do servidor atual.
+
+_Exemplo de entrada/saída:_
+```console
+list-channels
+"#canais de texto
+chat
+clube-do-livro
+#canais de voz
+joguinhos"
+```
+#### **enter-channel**
+Altera a variável que armazena qual canal está sendo visualizado no momento para o canal cujo nome foi inserido, se ele existir. Se houver mais de um canal com o mesmo nome, entra no primeiro encontrado.
+
+_Exemplo de entrada/saída:_
+```console
+enter-channel clube-do-livro
+"Entrou no canal 'clube-do-livro'"
+
+enter-channel memes
+"Canal 'memes' não existe"
+```
+#### **leave-channel**
+O usuário logado deixa de visualizar o canal, ou seja, reseta a propriedade que armazena o nome do canal visualizado no momento, caso exista um.
+
+_Exemplo de entrada/saída:_
+```console
+leave-channel
+"Saindo do canal 'clube-do-livro'"
+
+leave-channel
+"Você não está visualizando nenhum canal"
+```
+#### **send-message**
+Adiciona uma nova mensagem ao canal atual (é necessário estar conectado a um). Se for um canal de texto, adiciona ao final da lista. Se for um canal de voz, sobrescreve a última mensagem enviada. O objeto da mensagem guarda o ID de quem enviou, o conteúdo e a data e hora de envio.
+
+_Exemplo de entrada/saída:_
+```console
+enter-channel chat
+send-message Oi turminha, vou entrar no canal de voz
+"Mensagem enviada"
+
+enter-channel joguinhos
+send-message Estão me ouvindo?
+"Mensagem enviada"
+```
+#### **list-messages**
+Exibe todas as mensagens do canal atual(é necessário estar conectado a um), contendo o nome de quem enviou, a data/hora de envio e o conteúdo.
+
+_Exemplo de entrada/saída:_
+```console
+list-messages
+"Mônica<17:08 - 11/04/2021>: Oi turminha, vou entrar no canal de voz
+Cebolinha<17:10 - 11/04/2021>: Vamos de Mineclaft?
+Magali<17:10 - 11/04/2021>: Vou fazer um lanchinho, volto já"
+
+list-messages
+"Sem mensagens para exibir"
+```
+<!-- #### **comando**
 Descrição
 
 _Exemplo de entrada/saída:_
 ```console
 
 ```
-#### **comando**
-Descrição
-
-_Exemplo de entrada/saída:_
-```console
-
-```
-#### **comando**
-Descrição
-
-_Exemplo de entrada/saída:_
-```console
-
-```
-#### **comando**
-Descrição
-
-_Exemplo de entrada/saída:_
-```console
-
-```
+ -->
 ## Licença e Autora
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 

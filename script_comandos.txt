@@ -67,6 +67,7 @@ list-channels
 enter-channel clube-do-livro
 enter-channel memes
 leave-channel
+leave-channel
 enter-channel chat
 send-message Oi turminha, vou entrar no canal de voz
 enter-channel joguinhos
@@ -78,6 +79,8 @@ send-message Vamos de Mineclaft?
 login magali@gmail.com mingau123
 enter-channel chat
 send-message Vou fazer um lanchinho, volto já
+list-messages
+enter-channel clube-do-livro
 list-messages
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
