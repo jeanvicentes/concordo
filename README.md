@@ -185,6 +185,51 @@ list-participants
 "Magali"
 "Mônica"
 ```
+### Parte 2
+Comandos relacionados a gestão de canais e mensagens.
+
+#### **create-channel**
+Descrição
+
+_Exemplo de entrada/saída:_
+```console
+create-channel chat texto
+"Canal de texto 'chat' criado"
+
+create-channel chat texto
+"Canal de texto 'chat' já existe!"
+
+create-channel joguinhos voz
+Canal de voz 'joguinhos' criado
+```
+#### **comando**
+Descrição
+
+_Exemplo de entrada/saída:_
+```console
+
+```
+#### **comando**
+Descrição
+
+_Exemplo de entrada/saída:_
+```console
+
+```
+#### **comando**
+Descrição
+
+_Exemplo de entrada/saída:_
+```console
+
+```
+#### **comando**
+Descrição
+
+_Exemplo de entrada/saída:_
+```console
+
+```
 ## Licença e Autora
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 

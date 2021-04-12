@@ -59,5 +59,25 @@ enter-server bairro-do-limoeiro
 login monica@gmail.com sansao123
 enter-server bairro-do-limoeiro
 list-participants
+create-channel chat texto
+create-channel chat texto
+create-channel clube-do-livro texto
+create-channel joguinhos voz
+list-channels
+enter-channel clube-do-livro
+enter-channel memes
+leave-channel
+enter-channel chat
+send-message Oi turminha, vou entrar no canal de voz
+enter-channel joguinhos
+send-message Estão me ouvindo?
+list-messages
+login cebolinha@gmail.com senha
+enter-channel chat
+send-message Vamos de Mineclaft?
+login magali@gmail.com mingau123
+enter-channel chat
+send-message Vou fazer um lanchinho, volto já
+list-messages
 quit
 create-user naodeveprocessar@gmail.com naodevechegaraqui Não deve chegar aqui
