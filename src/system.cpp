@@ -1,6 +1,7 @@
 #include "system.h"
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <algorithm>
 #include <iomanip>      // std::put_time
 #include <ctime>        // std::time_t, struct std::tm, std::localtime
@@ -10,19 +11,50 @@ using namespace std;
 using std::chrono::system_clock;
 
 /* Obtém a data e hora atual */
-struct tm* currentTime(){
+struct tm* currentTime() {
 	time_t tt =  system_clock::to_time_t(system_clock::now());
 	return localtime(&tt);
 }
 
 /* Percorre a lista de servidores liberando a memória alocada para os seus canais */
-System::~System(){
+System::~System() {
   for (size_t i = 0; i < servers.size(); ++i) {
     vector<Channel*> channels = servers[i].getChannels();
     for (size_t j = 0; j < channels.size(); ++j) {
       delete channels[j];
     }
   }
+}
+
+/* Executa os métodos que salvam os dados nos arquivos txt */
+void System::save() {
+  saveUsers();
+  // saveServers();
+}
+
+void System::saveUsers() {
+  ofstream userFile("users.txt");
+  if (!userFile) {
+    cerr << "O arquivo não foi aberto" << endl;
+    exit(1);
+  } else {
+    // Imprime a quantidade de usuários
+    userFile << users.size() << endl;
+    // Percorre o vetor de usuários imprimindo seus atributos no arquivo
+    for (auto it = users.begin(); it != users.end(); ++it) {
+      userFile << it->getId() << endl;
+      userFile << it->getName() << endl;
+      userFile << it->getEmail() << endl;
+      userFile << it->getPassword() << endl;
+    }
+
+    // Fecha o arquivo
+    userFile.close();
+  }
+}
+
+void System::saveServers() {
+  cout << "Não implementado";
 }
 
 /* COMANDOS */
@@ -52,7 +84,7 @@ string System::create_user (const string email, const string password, const str
   // Cria o novo usuário e adiciona ao final do vetor
   User newUser(id, name, email, password);
   users.push_back(newUser);
-
+  save();
   return "Usuário criado";
 }
 
