@@ -13,6 +13,10 @@ channelType TextChannel::getType() {
   return TEXT;
 }
 
+vector<Message> TextChannel::getMessages() {
+  return messages;
+}
+
 /** Adiciona uma nova mensagem ao fim da lista.
  * @param newMessage objeto contendo as informações da mensagem
 */

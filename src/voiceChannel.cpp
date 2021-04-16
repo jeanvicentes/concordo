@@ -13,6 +13,12 @@ channelType VoiceChannel::getType() {
   return VOICE;
 }
 
+vector<Message> VoiceChannel::getMessages() {
+  vector<Message> messages;
+  messages.push_back(lastMessage);
+  return messages;
+}
+
 /** Altera o atributo da última mensagem enviada no canal.
  * @param newMessage objeto contendo as informações da mensagem
 */

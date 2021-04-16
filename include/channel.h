@@ -23,6 +23,7 @@ class Channel {
     virtual channelType getType() = 0; /**< Método virtual que retorna o tipo do canal */
     virtual void addMessage(Message newMessage) = 0; /**< Método virtual que adiciona uma mensagem */
     virtual std::string printMessages(std::vector<User> users) = 0; /**< Método virtual que retorna as mensagens formatadas em string */
+    virtual std::vector<Message> getMessages() = 0; /**< Método virtual que retorna as mensagens do canal */
 };
 
 

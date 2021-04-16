@@ -10,13 +10,13 @@
 using namespace std;
 using std::chrono::system_clock;
 
-/* Obtém a data e hora atual */
+/** Obtém a data e hora atual */
 struct tm* currentTime() {
 	time_t tt =  system_clock::to_time_t(system_clock::now());
 	return localtime(&tt);
 }
 
-/* Percorre a lista de servidores liberando a memória alocada para os seus canais */
+/** Percorre a lista de servidores liberando a memória alocada para os seus canais */
 System::~System() {
   for (size_t i = 0; i < servers.size(); ++i) {
     vector<Channel*> channels = servers[i].getChannels();
@@ -26,12 +26,13 @@ System::~System() {
   }
 }
 
-/* Executa os métodos que salvam os dados nos arquivos txt */
+/** Executa os métodos que salvam os dados nos arquivos txt */
 void System::save() {
   saveUsers();
-  // saveServers();
+  saveServers();
 }
 
+/** Imprime no arquivo users.txt a quantidade de usuários, seguida dos atributos de cada usuário do sistema*/
 void System::saveUsers() {
   ofstream userFile("users.txt");
   if (!userFile) {
@@ -54,6 +55,51 @@ void System::saveUsers() {
 }
 
 void System::saveServers() {
+  ofstream serverFile("servers.txt");
+  if (!serverFile) {
+    cerr << "O arquivo não foi aberto" << endl;
+    exit(1);
+  } else {
+    // Imprime a quantidade de servidores
+    serverFile << servers.size() << endl;
+
+    // Percorre o vetor de servidores
+    for (auto it = servers.begin(); it != servers.end(); ++it) {
+      serverFile << it->getOwner() << endl;
+      serverFile << it->getName() << endl;
+      serverFile << it->getDescription() << endl;
+      serverFile << it->getInvitationCode() << endl;
+
+      vector<int> memberIds = it->getMemberIds();
+      serverFile << memberIds.size() << endl;
+      // Imprime os ids dos usuários participantes
+      for (auto id = memberIds.begin(); id != memberIds.end(); ++id) {
+        serverFile << *id << endl;
+      }
+
+      vector<Channel*> channels = it->getChannels();
+      serverFile << channels.size() << endl;
+      // Imprime os atributos dos canais
+      for (auto c = channels.begin(); c != channels.end(); ++c) {
+        serverFile << (*c)->getName() << endl;
+        string type = (*c)->getType() == TEXT ? "TEXTO" : "VOZ";
+        serverFile << type << endl;
+
+        // Imprime a quantidade de mensagens
+        vector<Message> messages = (*c)->getMessages();
+        serverFile << messages.size() << endl;
+        // Imprime os atributos de cada mensagem
+        for (auto m = messages.begin(); m != messages.end(); ++m) {
+          serverFile << m->getSentBy() << endl;
+          serverFile << m->getDateTime() << endl;
+          serverFile << m->getContent() << endl;
+        }
+      }
+    }
+
+    // Fecha o arquivo
+    serverFile.close();
+  }
   cout << "Não implementado";
 }
 
@@ -157,7 +203,7 @@ string System::create_server(const string name) {
   // Cria um novo servidor e adiciona ao final do vector
   Server newServer(loggedUserId, name);
   servers.push_back(newServer);
-
+  save();
   return "Servidor criado";
 }
 
@@ -186,6 +232,7 @@ string System::set_server_desc(const string name, const string description) {
 
   // Caso esteja tudo ok, altera a descrição
   it->setDescription(description);
+  save();
   return "Descrição do servidor '" + name + "' modificada!";
 }
 
@@ -214,10 +261,12 @@ string System::set_server_invite_code(const string name, const string code) {
   // Se está tudo ok e foi passado um código
   if (code.length() > 0) {
     it->setInvitationCode(code);
+    save();
     return "Código de convite do servidor '" + name +"' modificado!";
   }
   // Caso não tenha um código no comando
   it->setInvitationCode("");
+  save();
   return "Código de convite do servidor '" + name +"' removido!";
 }
 
@@ -268,7 +317,7 @@ string System::remove_server(const string name) {
   }
   // Se estiver tudo ok, remove o servidor do vector
   servers.erase(it);
-
+  save();
   return "Servidor '" + name + "' removido";
 }
 
@@ -303,6 +352,7 @@ string System::enter_server(const string name, const string code) {
   // Caso tudo ok, adiciona no servidor
   connectedServerName = name;
   it->addMember(loggedUserId);
+  save();
   return "Entrou no servidor com sucesso";
 }
 
@@ -450,6 +500,7 @@ string System::create_channel(const string name, const string type) {
     }
     // Adiciona na lista do servidor
     target->addChannel(newChannel);
+    save();
     return "Canal de " + type + " '" + name + "' criado";
   }
 }
@@ -550,6 +601,7 @@ string System::send_message(const string message) {
 
   // Adiciona a nova mensagem ao canal
   (*channel)->addMessage(newMessage);
+  save();
   return "Mensagem enviada";
 }
 
@@ -588,8 +640,3 @@ string System::list_messages() {
   // Retorna a lista de mensagens do canal
   return (*channel)->printMessages(users);
 }
-
-
-
-
-/* IMPLEMENTAR MÉTODOS PARA OS COMANDOS RESTANTES */

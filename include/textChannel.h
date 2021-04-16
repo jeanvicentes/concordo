@@ -14,9 +14,11 @@ class TextChannel : public Channel {
     ~TextChannel(); /**< Destrutor de canal de texto */
 
     channelType getType(); /**< Retorna o tipo do canal */
+    std::vector<Message> getMessages(); /**< Retorna o vetor de mensagens */
 
     void addMessage(Message newMessage); /**< Adiciona uma nova mensagem a lista */
     std::string printMessages(std::vector<User> users); /**< Retorna a lista de mensagens formatadas em string */
+    
 };
 
 #endif

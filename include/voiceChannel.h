@@ -14,6 +14,7 @@ class VoiceChannel : public Channel {
     ~VoiceChannel(); /**< Destrutor do canal de voz */
 
     channelType getType(); /**< Retorna o tipo do canal */
+    std::vector<Message> getMessages(); /**< Retorna um vetor contendo a última mensagem */
 
     void addMessage(Message newMessage); /**< Sobrescreve o atributo com uma nova mensagem */
     std::string printMessages(std::vector<User> users); /**< Retorna a última mensagem formatada em string */
