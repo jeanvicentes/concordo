@@ -100,7 +100,6 @@ void System::saveServers() {
     // Fecha o arquivo
     serverFile.close();
   }
-  cout << "Não implementado";
 }
 
 /* COMANDOS */
