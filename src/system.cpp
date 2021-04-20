@@ -6,6 +6,7 @@
 #include <iomanip>      // std::put_time
 #include <ctime>        // std::time_t, struct std::tm, std::localtime
 #include <chrono>       // std::chrono::system_clock
+#include <typeinfo>
 
 using namespace std;
 using std::chrono::system_clock;
@@ -35,6 +36,7 @@ void System::save() {
 /** Imprime no arquivo users.txt a quantidade de usuários, seguida dos atributos de cada usuário do sistema*/
 void System::saveUsers() {
   ofstream userFile("users.txt");
+  // Verifica se o arquivo foi aberto
   if (!userFile) {
     cerr << "O arquivo não foi aberto" << endl;
     exit(1);
@@ -54,8 +56,10 @@ void System::saveUsers() {
   }
 }
 
+/** Imprime no arquivo servidores.txt as informações de cada servidor do sistema */
 void System::saveServers() {
   ofstream serverFile("servers.txt");
+  // Verifica se o arquivo foi aberto
   if (!serverFile) {
     cerr << "O arquivo não foi aberto" << endl;
     exit(1);
@@ -100,6 +104,86 @@ void System::saveServers() {
     // Fecha o arquivo
     serverFile.close();
   }
+}
+
+/** Executa os métodos que restauram os dados dos arquivos txt */
+void System::load() {
+  int fileSize = 0;
+  fstream userFile("users.txt", ios::in | ios::out | ios::binary);
+  fstream serverFile("servers.txt", ios::in | ios::out | ios::binary);
+
+  // Verifica se o arquivo de usuários existe e não está vazio
+  if (userFile) {
+    userFile.seekg(0, ios::end);
+    fileSize = userFile.tellg();
+    if (fileSize > 0) {
+      loadUsers();
+    }
+
+    // Fecha o arquivo
+    userFile.close();
+  }
+  // Verifica se o arquivo de servidores existe e não está vazio
+  if (serverFile) {
+    serverFile.seekg(0, ios::end);
+    fileSize = serverFile.tellg();
+    if (fileSize > 0) {
+      loadServers();
+    }
+
+    // Fecha o arquivo
+    serverFile.close();
+  }
+}
+
+
+void System::loadUsers() {
+  ifstream userFile("users.txt");
+
+  if (!userFile) {
+    cerr << "O arquivo não foi aberto" << endl;
+    exit(1);
+  } else {
+    string size, id, name, email, pass;
+    size_t sizeN;
+
+    // Lê a quantidade de usuários e converte para size_t
+    userFile >> size; 
+    stringstream sstream(size);
+    sstream >> sizeN;
+    
+    userFile.ignore();
+    // Percorre o arquivo capturando os atributos dos usuários
+    for (size_t i = 0; i < sizeN ; ++i) {
+      getline(userFile, id);
+      getline(userFile, name);
+      getline(userFile, email);
+      getline(userFile, pass);
+
+      // Converter a string id para int
+      int intId;
+      stringstream sstream(id);
+      sstream >> intId;
+      
+      // Verifica se o usuário já existe
+      auto it = find_if(users.begin(), users.end(), [intId](User user) {
+        return intId == user.getId();
+      });
+      // Cria um novo usuário e adiciona na lista
+      if (it == users.end()) {
+        User newUser(intId, name, email, pass);
+        users.push_back(newUser);
+      }
+    }
+
+    // Fecha o arquivo
+    userFile.close();
+  }
+
+}
+
+void System::loadServers() {
+  cout << "Não implementado" << endl;
 }
 
 /* COMANDOS */

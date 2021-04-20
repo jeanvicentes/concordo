@@ -1,6 +1,6 @@
-create-user user1@gmail.com senha Usuario 1
-create-user user2@gmail.com senha Usuario 2
-create-user user3@gmail.com senha Usuario 3
+create-user user1@gmail.com senha Usuario1
+create-user user2@gmail.com senha Usuario2
+create-user user3@gmail.com senha Usuario3
 login user1@gmail.com senha
 create-server IMD
 set-server-desc IMD Descrição do servidor do IMD
@@ -25,3 +25,4 @@ create-channel informativos texto
 enter-channel informativos
 send-message aulas remotas #ativar
 send-message aulas remotas #continuar
+quit

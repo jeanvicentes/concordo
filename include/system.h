@@ -21,13 +21,18 @@ class System {
     int loggedUserId; /** se 0: não logado, caso contrário guarda o id do usuário logado */
     std::string connectedServerName; /**< Nome do servidor conectado */
     std::string connectedChannelName; /**< Nome do canal conectado */
+
     void saveUsers();
     void saveServers();
+
+    void loadUsers();
+    void loadServers();
 
   public:
   ~System(); /**< Destrutor do sistema */
 
   void save();
+  void load();
 
   std::string quit();
   std::string create_user (const std::string email, const std::string password, const std::string name);
