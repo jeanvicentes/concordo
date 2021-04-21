@@ -17,6 +17,14 @@ struct tm* currentTime() {
 	return localtime(&tt);
 }
 
+/** Converte string para inteiro */
+int stringToInt(string s) {
+  int i;
+  stringstream sstream(s);
+  sstream >> i;
+  return i;
+}
+
 /** Percorre a lista de servidores liberando a memória alocada para os seus canais */
 System::~System() {
   for (size_t i = 0; i < servers.size(); ++i) {
@@ -109,8 +117,8 @@ void System::saveServers() {
 /** Executa os métodos que restauram os dados dos arquivos txt */
 void System::load() {
   int fileSize = 0;
-  fstream userFile("users.txt", ios::in | ios::out | ios::binary);
-  fstream serverFile("servers.txt", ios::in | ios::out | ios::binary);
+  ifstream userFile("users.txt");
+  ifstream serverFile("servers.txt");
 
   // Verifica se o arquivo de usuários existe e não está vazio
   if (userFile) {
@@ -136,7 +144,7 @@ void System::load() {
   }
 }
 
-
+/** Obtém os dados do arquivo users.txt e cria usuários correspondentes no sistema */
 void System::loadUsers() {
   ifstream userFile("users.txt");
 
@@ -145,25 +153,22 @@ void System::loadUsers() {
     exit(1);
   } else {
     string size, id, name, email, pass;
-    size_t sizeN;
+    size_t u;
 
     // Lê a quantidade de usuários e converte para size_t
     userFile >> size; 
-    stringstream sstream(size);
-    sstream >> sizeN;
+    u = stringToInt(size);
     
     userFile.ignore();
     // Percorre o arquivo capturando os atributos dos usuários
-    for (size_t i = 0; i < sizeN ; ++i) {
+    for (size_t i = 0; i < u ; ++i) {
       getline(userFile, id);
       getline(userFile, name);
       getline(userFile, email);
       getline(userFile, pass);
 
       // Converter a string id para int
-      int intId;
-      stringstream sstream(id);
-      sstream >> intId;
+      int intId = stringToInt(id);
       
       // Verifica se o usuário já existe
       auto it = find_if(users.begin(), users.end(), [intId](User user) {
@@ -183,7 +188,94 @@ void System::loadUsers() {
 }
 
 void System::loadServers() {
-  cout << "Não implementado" << endl;
+  ifstream serverFile("servers.txt");
+
+  if (!serverFile) {
+    cerr << "O arquivo não foi aberto" << endl;
+    exit(1);
+  } else {
+    string size, id, name, desc, code, channelName, channelType, date, text;
+    size_t s, u, c, m;
+
+    // Lê a quantidade de servidores e converte para size_t
+    serverFile >> size; 
+    s = stringToInt(size);
+    
+    serverFile.ignore();
+    // Percorre o arquivo capturando os atributos dos servidores
+    for (size_t i = 0; i < s; i++) {
+      getline(serverFile, id);
+      getline(serverFile, name);
+      getline(serverFile, desc);
+      getline(serverFile, code);
+
+      // Converte a string id para int
+      int intId = stringToInt(id);
+
+      // Cria um novo servidor e seta os atributos
+      Server newServer(intId, name);
+      newServer.setDescription(desc);
+      if (code.length() > 0) {
+        newServer.setInvitationCode(code);
+      } else {
+        newServer.setInvitationCode("");
+      }
+
+      // Obtém a quantidade de usuários
+      getline(serverFile, size);
+      u = stringToInt(size);
+
+      // Obtém os ids dos membros, converte para inteiro e adiciona ao servidor
+      for (size_t j = 0; j < u; j++) {
+        getline(serverFile, id);
+        intId = stringToInt(id);
+        newServer.addMember(intId);
+      }
+
+      // Obtém a quantidade de canais
+      getline(serverFile, size);
+      c = stringToInt(size);
+
+      // Captura os atributos dos canais
+      for (size_t j = 0; j < c; ++j) {
+        getline(serverFile, channelName);
+        getline(serverFile, channelType);
+
+        // Cria um novo canal com o tipo informado
+        Channel * newChannel;
+        if (channelType == "TEXTO") {
+          newChannel = new TextChannel(channelName);
+        } else if (channelType == "VOZ") {
+          newChannel = new VoiceChannel(channelName);
+        }
+
+        // Obtém a quantidade de mensagens
+        getline(serverFile, size);
+        m = stringToInt(size);
+
+        // Captura os atributos das mensagens
+        for (size_t k = 0; k < m; ++k) {
+          // Obtém o id de quem enviou e converte para int
+          getline(serverFile, id);
+          intId = stringToInt(id);
+
+          getline(serverFile, date);
+          getline(serverFile, text);
+
+          // Cria a nova mensagem e adiciona ao canal
+          Message newMessage(date, intId, text);
+          newChannel->addMessage(newMessage);
+        }
+
+        // Adiciona o canal ao servidor
+        newServer.addChannel(newChannel);
+      }
+      // Adiciona o servidor na lista
+      servers.push_back(newServer);
+    }
+    // Fecha o arquivo
+    serverFile.close();
+  }
 }
 
 /* COMANDOS */
@@ -410,6 +502,7 @@ string System::remove_server(const string name) {
  * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
 */
 string System::enter_server(const string name, const string code) {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -443,6 +536,7 @@ string System::enter_server(const string name, const string code) {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado.
 */
 string System::leave_server() {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -462,6 +556,7 @@ string System::leave_server() {
  * @return uma string contendo a lista de todos os participantes do servidor.
 */
 string System::list_participants() {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -499,6 +594,7 @@ string System::list_participants() {
  * @return uma string contendo a lista de todos os canais de texto e voz do servidor.
 */
 string System::list_channels() {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -545,6 +641,7 @@ string System::list_channels() {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal já existe.
 */
 string System::create_channel(const string name, const string type) {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -593,6 +690,7 @@ string System::create_channel(const string name, const string type) {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal não existe.
 */
 string System::enter_channel(const string name) {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -630,6 +728,7 @@ string System::enter_channel(const string name) {
  * @return uma mensagem de sucesso ou informando que não há canal visualizado no momento, ou não há usuário conectado.
 */
 string System::leave_channel() {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -649,6 +748,7 @@ string System::leave_channel() {
  * @param message conteúdo da mensagem inserida pelo usuário
 */
 string System::send_message(const string message) {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -692,6 +792,7 @@ string System::send_message(const string message) {
  * @return uma string contendo a lista de todas as mensagens do canal, se for de texto, ou a última mensagem do canal de voz.
 */
 string System::list_messages() {
+  
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
