@@ -12,6 +12,8 @@ int main() {
   System system;
   Executor executor(system);
 
+  system.load();
+
   // o executor recebe o cin e o cout. Ele irá os utilizar para ler as linhas
   // de comando, executar o método correto em "sistema" e exibir as mensagens
   executor.start(cin, cout);

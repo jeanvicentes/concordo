@@ -31,6 +31,10 @@ string Server::getName() {
   return name;
 }
 
+string Server::getDescription() {
+  return description;
+}
+
 string Server::getInvitationCode() {
   return invitationCode;
 }

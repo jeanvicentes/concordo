@@ -22,6 +22,7 @@ class Server {
 
     int getOwner(); /**< Obtém o ID do dono do servidor */
     std::string getName(); /**< Obtém o nome do servidor */
+    std::string getDescription(); /**< Obtém a descrição do servidor */
     std::string getInvitationCode(); /**< Obtém o código de convite do servidor */
     std::vector<int> getMemberIds(); /**< Obtém a lista de IDs de usuários que estão no servidor */
     std::vector<Channel*> getChannels(); /**< Obtém a lista de ponteiros para os canais do servidor */
