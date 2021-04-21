@@ -187,6 +187,7 @@ void System::loadUsers() {
 
 }
 
+/** Obtém os dados do arquivo servers.txt e cria servidores correspondentes no sistema */
 void System::loadServers() {
   ifstream serverFile("servers.txt");
 
@@ -196,6 +197,9 @@ void System::loadServers() {
   } else {
     string size, id, name, desc, code, channelName, channelType, date, text;
     size_t s, u, c, m;
+
+    // Reseta o vector de servers
+    servers.clear();
 
     // Lê a quantidade de servidores e converte para size_t
     serverFile >> size; 
@@ -211,7 +215,7 @@ void System::loadServers() {
 
       // Converte a string id para int
       int intId = stringToInt(id);
-
+      
       // Cria um novo servidor e seta os atributos
       Server newServer(intId, name);
       newServer.setDescription(desc);
@@ -290,6 +294,7 @@ string System::quit() {
  * @return uma mensagem de sucesso ou informando que o email já existe.
 */
 string System::create_user (const string email, const string password, const string name) {
+  load(); 
   vector<User>::iterator it = users.begin();
   // Verifica se já existe usuário cadastrado com esse email
   while (it != users.end()) {
@@ -315,6 +320,7 @@ string System::create_user (const string email, const string password, const str
  * @return uma mensagem de sucesso ou informando que as credenciais são inválidas.
 */
 string System::login(const string email, const string password) {
+  load();
   vector<User>::iterator it = users.begin();
   // Verifica se existe usuário com esse email e senha
   while (it != users.end()) {
@@ -362,6 +368,7 @@ string System::disconnect() {
  * @return uma mensagem de sucesso ou informando que o servidor já existe, ou não há usuário conectado.
 */
 string System::create_server(const string name) {
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -388,6 +395,7 @@ string System::create_server(const string name) {
  * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
 */
 string System::set_server_desc(const string name, const string description) {
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -417,6 +425,7 @@ string System::set_server_desc(const string name, const string description) {
  * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
 */
 string System::set_server_invite_code(const string name, const string code) {
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -449,6 +458,7 @@ string System::set_server_invite_code(const string name, const string code) {
  * @return uma string contendo a lista de todos os servidores do sistema.
 */
 string System::list_servers() {
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -474,6 +484,7 @@ string System::list_servers() {
  * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
 */
 string System::remove_server(const string name) {
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -502,7 +513,7 @@ string System::remove_server(const string name) {
  * @return uma mensagem de sucesso ou informando que o servidor não existe, ou não há usuário conectado, ou ele não possui permissão.
 */
 string System::enter_server(const string name, const string code) {
-  
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -536,7 +547,7 @@ string System::enter_server(const string name, const string code) {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado.
 */
 string System::leave_server() {
-  
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -556,7 +567,7 @@ string System::leave_server() {
  * @return uma string contendo a lista de todos os participantes do servidor.
 */
 string System::list_participants() {
-  
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -594,7 +605,7 @@ string System::list_participants() {
  * @return uma string contendo a lista de todos os canais de texto e voz do servidor.
 */
 string System::list_channels() {
-  
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -641,7 +652,7 @@ string System::list_channels() {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal já existe.
 */
 string System::create_channel(const string name, const string type) {
-  
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -690,7 +701,7 @@ string System::create_channel(const string name, const string type) {
  * @return uma mensagem de sucesso ou informando que não há servidor visualizado no momento, ou não há usuário conectado, ou o canal não existe.
 */
 string System::enter_channel(const string name) {
-  
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -728,7 +739,7 @@ string System::enter_channel(const string name) {
  * @return uma mensagem de sucesso ou informando que não há canal visualizado no momento, ou não há usuário conectado.
 */
 string System::leave_channel() {
-  
+  load();
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -748,7 +759,7 @@ string System::leave_channel() {
  * @param message conteúdo da mensagem inserida pelo usuário
 */
 string System::send_message(const string message) {
-  
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
@@ -792,7 +803,7 @@ string System::send_message(const string message) {
  * @return uma string contendo a lista de todas as mensagens do canal, se for de texto, ou a última mensagem do canal de voz.
 */
 string System::list_messages() {
-  
+  load(); 
   // Verifica se existe usuario logado
   if (loggedUserId == 0) {
     return "Não está conectado";
