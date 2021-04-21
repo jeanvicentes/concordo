@@ -367,6 +367,7 @@ pega o coelho encaldido e sai colendo
 #### **Restauração dos dados do disco**
 O método **load()** é executado automaticamente na inicialização do sistema para retormar o estado da aplicação e antes de cada um dos comandos, para recuperar as informações que podem ter sido alteradas por outro usuário em execução simultânea. Se os arquivos **users.txt** e **servers.txt** existirem e não estiverem vazios, este método executa **loadUsers()** e **loadServers()** que percorrem todas as linhas desses arquivos e preenchem os vetores do sistema com as informações de usuários e servidores (com seus participantes, canais e mensagens).
 
+Para detalhes da implementação de cada um desses métodos, verifique os comentários no código do arquivo system.cpp.
 ## Licença e Autora
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 
