@@ -262,14 +262,111 @@ Magali<17:10 - 11/04/2021>: Vou fazer um lanchinho, volto já"
 list-messages
 "Sem mensagens para exibir"
 ```
-<!-- #### **comando**
-Descrição
+### Parte 3
+Nesta etapa não foram adicionados comandos novos, mas um mecanismo que salva todos os dados do sistema (usuários, servidores, canais e mensagens) em disco e que carrega esses dados para que o sistema retome o estado desde a última execução.
+#### **Persistência dos dados em disco**
+O método **save()** é executado automaticamente após comandos que alteram algum dado do sistema (criação de usuários, mudança na descrição de um servidor, envio de mensagens e etc). Este método executa **saveUsers()** e **saveServers()**, que percorrem as listas de usuários e servidores do sistema e salvam suas informações nos arquivos **users.txt** e **servers.txt**, respectivamente.
 
-_Exemplo de entrada/saída:_
+O método **saveUsers()** escreve no arquivo com o seguinte padrão:
+* Primeira linha contém o total de usuários
+* Em seguida, para cada usuário, existem 4 linhas, uma para cada atributo na seguinte ordem: ID, nome, email, senha
+
+_Exemplo de arquivo "users.txt":_
 ```console
-
+3
+1
+Mônica
+monica@gmail.com
+sansao123
+2
+Cebolinha
+cebolinha@gmail.com
+senha
+3
+Magali
+magali@gmail.com
+mingau123
 ```
- -->
+O método **saveServers()** escreve no arquivo com o seguinte padrão:
+* Primeira linha contém o total de servidores
+* Em seguida, para cada servidor, temos:
+  * Uma linha com o ID do usuário dono do servidor
+  * Uma linha com o nome do servidor
+  * Uma linha com a descrição do servidor
+  * Uma linha com o código de convite do servidor (se for aberto deve ser uma linha vazia)
+  * Uma linha com o número de usuários participantes do servidor
+  * Para cada usuário, uma linha com o ID
+  * Uma linha com o número de canais do servidor
+  * Para cada canal:
+    * Uma linha com o nome do canal
+    * Uma linha com o tipo do canal: 'TEXTO' ou 'VOZ'
+    * Uma linha com o número de mensagens do canal
+    * Para cada mensagem do canal:
+      * Uma linha com o ID do usuário que a enviou
+      * Uma linha com a data/hora de envio
+      * Uma linha com o conteúdo da mensagem
+
+_Exemplo de situação:_
+
+Ao rodar o programa com os comandos do script2.txt, teremos 2 servidores:
+* Servidor bairro-do-limoeiro com:
+  * Descrição "Onde as aventuras acontecem"
+  * 2 participantes: Monica (ID 1) e Magali (ID 2)
+  * 1 canal de texto "geral" e 1 de voz "joguinhos"
+    * Canal "geral" com duas mensagens, uma de Monica com o conteúdo "Oi turminha, vou entrar no canal de voz" e uma de Magali com o conteúdo "Oi amiga"
+    * Canal "joguinhos" com a mensagem de Monica "Estão me ouvindo?"
+* Servidor dono-da-lua com:
+  * Descrição "Onde nascem os planos infaliveis"
+  * 1 participante: Cebolinha (ID 3)
+  * 1 canal de texto "ideias" com duas mensagens "almadilha de colda" e "pega o coelho encaldido e sai colendo", ambas do Cebolinha
+
+
+_Exemplo de arquivo "servers.txt" para a situação acima:_
+```console
+2
+1
+bairro-do-limoeiro
+Onde as aventuras acontecem
+
+2
+1
+2
+2
+geral
+TEXTO
+2
+1
+15:00 - 21/04/2021
+Oi turminha, vou entrar no canal de voz
+2
+15:05 - 21/04/2021
+Oi amiga
+joguinhos
+VOZ
+1
+1
+15:05 - 21/04/2021
+Estão me ouvindo?
+3
+dono-da-lua
+Onde nascem os planos infaliveis
+
+1
+3
+1
+ideias
+TEXTO
+2
+3
+15:09 - 21/04/2021
+almadilha de colda
+3
+16:00 - 21/04/2021
+pega o coelho encaldido e sai colendo
+```
+#### **Restauração dos dados do disco**
+O método **load()** é executado automaticamente na inicialização do sistema para retormar o estado da aplicação e antes de cada um dos comandos, para recuperar as informações que podem ter sido alteradas por outro usuário em execução simultânea. Se os arquivos **users.txt** e **servers.txt** existirem e não estiverem vazios, este método executa **loadUsers()** e **loadServers()** que percorrem todas as linhas desses arquivos e preenchem os vetores do sistema com as informações de usuários e servidores (com seus participantes, canais e mensagens).
+
 ## Licença e Autora
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](https://github.com/lorenatoscano/concordo/blob/main/LICENSE) para mais detalhes.
 

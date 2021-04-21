@@ -1,28 +1,28 @@
-create-user user1@gmail.com senha Usuario1
-create-user user2@gmail.com senha Usuario2
-create-user user3@gmail.com senha Usuario3
-login user1@gmail.com senha
-create-server IMD
-set-server-desc IMD Descrição do servidor do IMD
-create-server UFRN
-set-server-desc UFRN Descrição do servidor da UFRN
-enter-server IMD
+create-user monica@gmail.com sansao123 Monica
+create-user magali@gmail.com mingau123 Magali
+create-user cebolinha@gmail.com senha Cebolinha
+login monica@gmail.com sansao123
+create-server bairro-do-limoeiro
+set-server-desc bairro-do-limoeiro Onde as aventuras acontecem
+enter-server bairro-do-limoeiro
 create-channel geral texto
-create-channel fale-com-o-professor voz
+create-channel joguinhos voz
 enter-channel geral
-send-message oi
-enter-channel fale-com-o-professor
-send-message alguém aí?
+send-message Oi turminha, vou entrar no canal de voz
+enter-channel joguinhos
+send-message Estão me ouvindo?
 disconnect
-login user2@gmail.com senha
-enter-server IMD
+login magali@gmail.com mingau123
+enter-server bairro-do-limoeiro
 enter-channel geral
-send-message olá
+send-message Oi amiga
 disconnect
-login user3@gmail.com senha
-enter-server UFRN
-create-channel informativos texto
-enter-channel informativos
-send-message aulas remotas #ativar
-send-message aulas remotas #continuar
+login cebolinha@gmail.com senha
+create-server dono-da-lua
+set-server-desc dono-da-lua Onde nascem os planos infaliveis
+enter-server dono-da-lua
+create-channel ideias texto
+enter-channel ideias
+send-message almadilha de colda
+send-message pega o coelho encaldido e sai colendo
 quit
